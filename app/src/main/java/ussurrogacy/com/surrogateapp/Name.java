@@ -1,8 +1,6 @@
 package ussurrogacy.com.surrogateapp;
 
-/**
- * Created by tgarn on 2/13/2018.
- */
+
 
 public class Name {
     private String firstName;
