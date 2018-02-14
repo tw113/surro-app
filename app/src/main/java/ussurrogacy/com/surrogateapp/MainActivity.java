@@ -42,8 +42,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity
     implements EasyPermissions.PermissionCallbacks {
-        GoogleAccountCredential mCredential;
-        TextView textView = findViewById(R.id.textView);
+        private GoogleAccountCredential mCredential;
+        private TextView textView;
 
         static final int REQUEST_ACCOUNT_PICKER = 1000;
         static final int REQUEST_AUTHORIZATION = 1001;
@@ -59,10 +59,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.textView);
+
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+    }
+
+    public void runApi(View view) {
+        getResultsFromApi();
     }
 
     /**
