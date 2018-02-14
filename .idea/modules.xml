@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SurrogateApp.iml" filepath="$PROJECT_DIR$/SurrogateApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/surro-app.iml" filepath="$PROJECT_DIR$/surro-app.iml" />
     </modules>
   </component>
 </project>
