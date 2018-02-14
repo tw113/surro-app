@@ -33,6 +33,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity
         static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
         static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-        private static final String BUTTON_TEXT = "Call Google Sheets API";
         private static final String PREF_ACCOUNT_NAME = "accountName";
         private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         } else if (! isDeviceOnline()) {
             textView.setText("No network connection available.");
         } else {
-            new MakeRequestTask(mCredential).execute();
+            new MakeRequestTask(this, mCredential).execute();
         }
     }
 
@@ -273,11 +273,14 @@ public class MainActivity extends AppCompatActivity
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    private static class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.sheets.v4.Sheets mService = null;
         private Exception mLastError = null;
+        private WeakReference<MainActivity> activityRef;
 
-        MakeRequestTask(GoogleAccountCredential credential) {
+        MakeRequestTask(MainActivity activity, GoogleAccountCredential credential) {
+            activityRef = new WeakReference<>(activity);
+
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.sheets.v4.Sheets.Builder(
@@ -328,39 +331,42 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-            textView.setText("");
+            MainActivity activity = activityRef.get();
+            activity.textView.setText("");
             //mProgress.show();
         }
 
         @Override
         protected void onPostExecute(List<String> output) {
+            MainActivity activity = activityRef.get();
             //mProgress.hide();
             if (output == null || output.size() == 0) {
-                textView.setText("No results returned.");
+                activity.textView.setText("No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Google Sheets API:");
-                textView.setText(TextUtils.join("\n", output));
+                activity.textView.setText(TextUtils.join("\n", output));
             }
         }
 
         @Override
         protected void onCancelled() {
+            MainActivity activity = activityRef.get();
             //mProgress.hide();
             if (mLastError != null) {
                 if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                    showGooglePlayServicesAvailabilityErrorDialog(
+                    activity.showGooglePlayServicesAvailabilityErrorDialog(
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    startActivityForResult(
+                    activity.startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             MainActivity.REQUEST_AUTHORIZATION);
                 } else {
-                    textView.setText("The following error occurred:\n"
+                    activity.textView.setText("The following error occurred:\n"
                             + mLastError.getMessage());
                 }
             } else {
-                textView.setText("Request cancelled.");
+                activity.textView.setText("Request cancelled.");
             }
         }
     }
