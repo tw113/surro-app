@@ -4,9 +4,7 @@ package ussurrogacy.com.surrogateapp;
 
 public class Name {
     private String firstName;
-
     private String preferredNamed;
-
     private String lastName;
 
     public Name() {
