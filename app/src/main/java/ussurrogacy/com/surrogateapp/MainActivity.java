@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity
 
         private static final String PREF_ACCOUNT_NAME = "accountName";
         private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
+        private static final String REQ_GOOGLE_PLAY = "This app requires Google Play Services. " +
+                     "Please install Google Play Services on your device and relaunch this app.";
+        private static final String NO_CONNECTION = "No network connection available.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            textView.setText("No network connection available.");
+            textView.setText(NO_CONNECTION);
         } else {
             new MakeRequestTask(this, mCredential).execute();
         }
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
+                System.out.println("Account name: " + accountName);
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
             } else {
@@ -142,9 +146,7 @@ public class MainActivity extends AppCompatActivity
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    textView.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
+                    textView.setText(REQ_GOOGLE_PLAY);
                 } else {
                     getResultsFromApi();
                 }
@@ -311,17 +313,17 @@ public class MainActivity extends AppCompatActivity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
-            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            String range = "Class Data!A2:E";
+            String spreadsheetId = "1qIFBaQ3aiQVOwkxclxkvXPW2M9daQJuc7QzNSLpfoV0";
+            String range = "A:FQ";
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
                     .get(spreadsheetId, range)
                     .execute();
             List<List<Object>> values = response.getValues();
             if (values != null) {
-                results.add("Name, Major");
+                results.add("First Name, Last Name");
                 for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(4));
+                    results.add(row.get(1) + ", " + row.get(3));
                 }
             }
             return results;
