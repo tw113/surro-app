@@ -1,9 +1,28 @@
 package ussurrogacy.com.surrogateapp;
 
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class Profile {
-    private Name name;
+    //use treemap or hash to hold all data
+    // have one or two separate variables to search the profile by
+
+    //hash or whatever
+    //int/double id
+    //string approved or denied
+    //float bmi
+    private LinkedHashMap<String, String> data;
+    private int id;
+    private String status;
+    private float bmi;
+
+    public Profile (List<String> keys, List<String> values, int num){
+
+    };
+
+    /*private Name name;
     private Address address;
     private String profileName;
     private double height;
@@ -84,5 +103,5 @@ public class Profile {
 
     public double getCompensation(){return compensation;}
 
-    public void setCompensation(double compensation) {this.compensation = compensation;}
+    public void setCompensation(double compensation) {this.compensation = compensation;}*/
 }
