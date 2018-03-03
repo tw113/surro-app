@@ -33,6 +33,7 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
 import com.google.api.services.sheets.v4.model.*;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -77,6 +78,12 @@ public class LoginActivity extends AppCompatActivity
                 .setBackOff(new ExponentialBackOff());
     }
 
+    /**
+     * Starts the process of selecting a google account when the login
+     * button is pressed
+     *
+     * @param view
+     */
     public void login(View view) {
         chooseAccount();
     }
@@ -101,10 +108,19 @@ public class LoginActivity extends AppCompatActivity
                 System.out.println("Account name: " + accountName);
                 mCredential.setSelectedAccountName(accountName);
 
-                // go to dashboard
+                // put credential object in json string so it can be
+                // passed through the intent
+                Gson gson = new Gson();
+                String cred = gson.toJson(mCredential);
+
+                // put intents into string arraylist
+                ArrayList<String> intents = new ArrayList<>();
+                intents.add(accountName);
+                intents.add(cred);
+
+                // create intent, add list of intent strings, then start dashboard actiivity
                 Intent intent = new Intent(this, DashboardActivity.class);
-                intent.putExtra(Config.ACCOUNT_NAME, accountName);
-                //TODO: pass credential through
+                intent.putStringArrayListExtra(Config.ACCOUNT_CREDENTIALS, intents);
                 startActivity(intent);
 
             } else {

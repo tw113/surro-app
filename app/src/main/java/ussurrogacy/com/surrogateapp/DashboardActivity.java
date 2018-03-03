@@ -4,19 +4,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -40,18 +38,26 @@ public class DashboardActivity extends AppCompatActivity {
 
         // set welcome message
         String welcomeMessage = "Welcome, " +
-                intent.getStringArrayListExtra(Config.ACCOUNT_NAME).get(0) + "!";
+                intent.getStringArrayListExtra(Config.ACCOUNT_CREDENTIALS).get(0) + "!";
         TextView textView = findViewById(R.id.welcomeTextView);
         textView.setText(welcomeMessage);
 
         //TODO: set mProgress to progressbar on dashboard
 
-        //TODO: take intent (credential) from login activity and set it to mCredential
-        System.out.println(mCredential);
+        // use gson to get google credential from json string that came through the intent
+        Gson gson = new Gson();
+        mCredential = gson.fromJson(
+                intent.getStringArrayListExtra(Config.ACCOUNT_CREDENTIALS).get(1),
+                GoogleAccountCredential.class);
 
     }
 
-    // called when surrogate profile list button is pressed
+    /**
+     * Called when surrogate profile list button is pressed
+     * Needs the GoogleAccountCredential from the login activity
+     *
+     * @param view - used for button onClick
+     */
     public void getList(View view) {
         new MakeRequestTask(this, mCredential);
     }

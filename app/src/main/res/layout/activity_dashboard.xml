@@ -49,58 +49,58 @@
         android:id="@+id/line_left"
         android:layout_width="1dp"
         android:layout_height="90dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
-        tools:layout_editor_absoluteX="133dp" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintStart_toEndOf="@+id/imageButton4"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
     <View
         android:id="@+id/line_right"
         android:layout_width="1dp"
         android:layout_height="90dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
-        tools:layout_editor_absoluteX="252dp" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/line_right"
-        app:layout_constraintStart_toEndOf="@+id/line_left"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        app:layout_constraintStart_toEndOf="@+id/imageButton4"
         app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
-        app:srcCompat="@drawable/ic_launcher_background" android:contentDescription="TODO" />
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
         android:backgroundTint="@android:color/transparent"
         android:onClick="getList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/line_right"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
+        app:layout_constraintTop_toTopOf="@+id/imageButton2"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageButton
         android:id="@+id/imageButton4"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/line_left"
+        android:layout_marginStart="64dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
+        app:layout_constraintTop_toTopOf="@+id/imageButton2"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView

@@ -5,6 +5,6 @@ package ussurrogacy.com.surrogateapp;
  */
 
 abstract class Config {
-    static final String ACCOUNT_NAME = "ussurrogacy.com.surrogateapp.accountname";
+    static final String ACCOUNT_CREDENTIALS = "ussurrogacy.com.surrogateapp.accountcredentials";
 
 }
