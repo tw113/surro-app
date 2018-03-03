@@ -6,13 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Profile {
-    //use treemap or hash to hold all data
-    // have one or two separate variables to search the profile by
 
-    //hash or whatever
-    //int/double id
-    //string approved or denied
-    //float bmi
     private LinkedHashMap<String, String> data;
     private int id;
     private String status;
@@ -34,6 +28,8 @@ public class Profile {
         status = "Profile created.";
 
         //set the bmi
+        setBmi();
+
     }
 
     //function to change status of the profile
@@ -57,6 +53,34 @@ public class Profile {
     //function to get the bmi of the profile
     public float getBmi() {return bmi;}
 
-    //public void setBmi() {bmi = (weight * 703)/(height * height);}
+    private void setBmi()
+    {
+        //pull height data and parse it
+        String height = data.get("WhatIsYourHeight");
+        int inches = 0;
+        if (height.charAt(0) == 'S' || height.charAt(0) == 'T')
+        {
+            bmi = 0;
+        }
+        else
+        {
+            //convert the height into inches as an integer
+            inches = height.charAt(0) * 12;
+            if (height.charAt(2) != 1)
+            {
+                inches += height.charAt(2);
+            }
+            else
+            {
+                inches += height.charAt(2) * 10;
+                inches += height.charAt(3);
+            }
 
+            //get the weight and parse into an integer
+            int weight = Integer.parseInt(data.get("WhatIsYourWeightInPounds"));
+
+            //calculate the bmi using the retrieved data
+            bmi = (float) (weight / Math.pow(inches, 2));
+        }
+    }
 }
