@@ -2,6 +2,7 @@ package ussurrogacy.com.surrogateapp;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,15 +38,18 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity
     implements EasyPermissions.PermissionCallbacks {
         private GoogleAccountCredential mCredential;
         private TextView textView;
+        private ProgressBar mProgress;
 
         static final int REQUEST_ACCOUNT_PICKER = 1000;
         static final int REQUEST_AUTHORIZATION = 1001;
@@ -60,9 +65,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-        textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.textView3);
+        textView.setText("");
+        mProgress = findViewById(R.id.progressBar2);
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -70,27 +77,8 @@ public class MainActivity extends AppCompatActivity
                 .setBackOff(new ExponentialBackOff());
     }
 
-    public void runApi(View view) {
-        getResultsFromApi();
-    }
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
-    private void getResultsFromApi() {
-        if (! isGooglePlayServicesAvailable()) {
-            acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else if (! isDeviceOnline()) {
-            textView.setText(NO_CONNECTION);
-        } else {
-            new MakeRequestTask(this, mCredential).execute();
-        }
+    public void login(View view) {
+        chooseAccount();
     }
 
     /**
@@ -112,7 +100,13 @@ public class MainActivity extends AppCompatActivity
             if (accountName != null) {
                 System.out.println("Account name: " + accountName);
                 mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
+
+                // go to dashboard
+                Intent intent = new Intent(this, DashboardActivity.class);
+                intent.putExtra(Config.ACCOUNT_NAME, accountName);
+                //TODO: pass credential through
+                startActivity(intent);
+
             } else {
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
@@ -148,7 +142,9 @@ public class MainActivity extends AppCompatActivity
                 if (resultCode != RESULT_OK) {
                     textView.setText(REQ_GOOGLE_PLAY);
                 } else {
-                    getResultsFromApi();
+
+                    //TODO: go to dashboard
+                    textView.setText("Login Successful");
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -163,13 +159,16 @@ public class MainActivity extends AppCompatActivity
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
                         mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
+
+                        //TODO: go to dashboard
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    getResultsFromApi();
+
+                    //TODO: go to dashboard
+                    textView.setText("Login Successful");
                 }
                 break;
         }
@@ -265,112 +264,10 @@ public class MainActivity extends AppCompatActivity
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                MainActivity.this,
+                LoginActivity.this,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
-    }
-
-    /**
-     * An asynchronous task that handles the Google Sheets API call.
-     * Placing the API calls in their own task ensures the UI stays responsive.
-     */
-    private static class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.sheets.v4.Sheets mService = null;
-        private Exception mLastError = null;
-        private WeakReference<MainActivity> activityRef;
-
-        MakeRequestTask(MainActivity activity, GoogleAccountCredential credential) {
-            activityRef = new WeakReference<>(activity);
-
-            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            mService = new com.google.api.services.sheets.v4.Sheets.Builder(
-                    transport, jsonFactory, credential)
-                    .setApplicationName("Google Sheets API Android Quickstart")
-                    .build();
-        }
-
-        /**
-         * Background task to call Google Sheets API.
-         * @param params no parameters needed for this task.
-         */
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            try {
-                return getDataFromApi();
-            } catch (Exception e) {
-                mLastError = e;
-                cancel(true);
-                return null;
-            }
-        }
-
-        /**
-         * Fetch a list of names and majors of students in a sample spreadsheet:
-         * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-         * @return List of names and majors
-         * @throws IOException
-         */
-        private List<String> getDataFromApi() throws IOException {
-            String spreadsheetId = "1qIFBaQ3aiQVOwkxclxkvXPW2M9daQJuc7QzNSLpfoV0";
-            String range = "A:FQ";
-            List<String> results = new ArrayList<String>();
-            ValueRange response = this.mService.spreadsheets().values()
-                    .get(spreadsheetId, range)
-                    .execute();
-            List<List<Object>> values = response.getValues();
-            if (values != null) {
-                results.add("First Name, Last Name");
-                for (List row : values) {
-                    results.add(row.get(1) + ", " + row.get(3));
-                }
-            }
-            return results;
-        }
-
-
-
-        @Override
-        protected void onPreExecute() {
-            MainActivity activity = activityRef.get();
-            activity.textView.setText("");
-            //mProgress.show();
-        }
-
-        @Override
-        protected void onPostExecute(List<String> output) {
-            MainActivity activity = activityRef.get();
-            //mProgress.hide();
-            if (output == null || output.size() == 0) {
-                activity.textView.setText("No results returned.");
-            } else {
-                output.add(0, "Data retrieved using the Google Sheets API:");
-                activity.textView.setText(TextUtils.join("\n", output));
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            MainActivity activity = activityRef.get();
-            //mProgress.hide();
-            if (mLastError != null) {
-                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                    activity.showGooglePlayServicesAvailabilityErrorDialog(
-                            ((GooglePlayServicesAvailabilityIOException) mLastError)
-                                    .getConnectionStatusCode());
-                } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    activity.startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity.REQUEST_AUTHORIZATION);
-                } else {
-                    activity.textView.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
-                }
-            } else {
-                activity.textView.setText("Request cancelled.");
-            }
-        }
     }
 
 }
