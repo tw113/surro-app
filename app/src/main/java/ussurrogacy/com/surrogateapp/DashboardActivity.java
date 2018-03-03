@@ -40,7 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         // set welcome message
         String welcomeMessage = "Welcome, " +
-                intent.getStringArrayListExtra(Config.PREFERENCES).get(0) + "!";
+                intent.getStringArrayListExtra(Config.ACCOUNT_NAME).get(0) + "!";
         TextView textView = findViewById(R.id.welcomeTextView);
         textView.setText(welcomeMessage);
 
