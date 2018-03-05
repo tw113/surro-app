@@ -49,6 +49,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class LoginActivity extends AppCompatActivity
     implements EasyPermissions.PermissionCallbacks {
         private GoogleAccountCredential mCredential;
+        private String accountName;
         private TextView textView;
         private ProgressBar mProgress;
 
@@ -88,6 +89,23 @@ public class LoginActivity extends AppCompatActivity
         chooseAccount();
     }
 
+    private void goToDashboard(GoogleAccountCredential credential) {
+        // put credential object in json string so it can be
+        // passed through the intent
+        Gson gson = new Gson();
+        String cred = gson.toJson(mCredential);
+
+        // put intents into string arraylist
+        ArrayList<String> intents = new ArrayList<>();
+        intents.add(accountName);
+        intents.add(cred);
+
+        // create intent, add list of intent strings, then start dashboard actiivity
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.putStringArrayListExtra(Config.ACCOUNT_CREDENTIALS, intents);
+        startActivity(intent);
+    }
+
     /**
      * Attempts to set the account used with the API credentials. If an account
      * name was previously saved it will use that one; otherwise an account
@@ -108,20 +126,9 @@ public class LoginActivity extends AppCompatActivity
                 System.out.println("Account name: " + accountName);
                 mCredential.setSelectedAccountName(accountName);
 
-                // put credential object in json string so it can be
-                // passed through the intent
-                Gson gson = new Gson();
-                String cred = gson.toJson(mCredential);
+                this.accountName = accountName;
 
-                // put intents into string arraylist
-                ArrayList<String> intents = new ArrayList<>();
-                intents.add(accountName);
-                intents.add(cred);
-
-                // create intent, add list of intent strings, then start dashboard actiivity
-                Intent intent = new Intent(this, DashboardActivity.class);
-                intent.putStringArrayListExtra(Config.ACCOUNT_CREDENTIALS, intents);
-                startActivity(intent);
+                goToDashboard(mCredential);
 
             } else {
                 // Start a dialog from which the user can choose an account
@@ -158,9 +165,7 @@ public class LoginActivity extends AppCompatActivity
                 if (resultCode != RESULT_OK) {
                     textView.setText(REQ_GOOGLE_PLAY);
                 } else {
-
-                    //TODO: go to dashboard
-                    textView.setText("Login Successful");
+                    goToDashboard(mCredential);
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -176,15 +181,15 @@ public class LoginActivity extends AppCompatActivity
                         editor.apply();
                         mCredential.setSelectedAccountName(accountName);
 
-                        //TODO: go to dashboard
+                        this.accountName = accountName;
+
+                        goToDashboard(mCredential);
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-
-                    //TODO: go to dashboard
-                    textView.setText("Login Successful");
+                    goToDashboard(mCredential);
                 }
                 break;
         }

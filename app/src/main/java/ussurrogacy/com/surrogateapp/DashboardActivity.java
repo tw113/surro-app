@@ -56,7 +56,7 @@ public class DashboardActivity extends AppCompatActivity {
      * Called when surrogate profile list button is pressed
      * Needs the GoogleAccountCredential from the login activity
      *
-     * @param view - used for button onClick
+     * @param view - used for get list button onClick
      */
     public void getList(View view) {
         new MakeRequestTask(this, mCredential);
@@ -113,7 +113,6 @@ public class DashboardActivity extends AppCompatActivity {
             List<List<Object>> values = response.getValues();
             List<String> questions = new ArrayList<String>();
             List<String> answers = new ArrayList<String>();
-            Map<String, String> map = new LinkedHashMap<>();
             List<Profile> profiles = new ArrayList<>();
 
             if (values != null) {
