@@ -1,16 +1,35 @@
 package ussurrogacy.com.surrogateapp;
 
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Profile {
 
+    //
+    //
+    //
+    //ADD BOOLEANS FOR THE CHECKMARKS LISTED IN THE UI ELEMENTS NEEDED DOC
+    //AND METHODS TO CHANGE THEM IF/WHEN NEEDED
+    //
+    //
+    //
+
     private LinkedHashMap<String, String> data;
     private int id;
     private String status;
     private float bmi;
+
+    //profile checkmarks
+    private boolean selected = false;
+    private boolean isContacted = false;
+    private boolean hasAppointment = false;
+    private boolean reviewed = false;
+
+    //personal checks
+    private boolean background = false;
+    private boolean medRecords = false;
+    private boolean interviewed = false;
 
     public Profile (List<String> questions, List<String> answers, int num){
 
@@ -51,13 +70,14 @@ public class Profile {
     }
 
     //function to get the bmi of the profile
-    public float getBmi() {return bmi;}
+    public float getBmi() { return bmi;}
 
+    //function that sets the bmi in the constructor only
     private void setBmi()
     {
         //pull height data and parse it
         String height = data.get("WhatIsYourHeight");
-        int inches = 0;
+        int inches;
         if (height.charAt(0) == 'S' || height.charAt(0) == 'T')
         {
             bmi = 0;
@@ -66,10 +86,13 @@ public class Profile {
         {
             //convert the height into inches as an integer
             inches = height.charAt(0) * 12;
+
+            //if inches is less than 10
             if (height.charAt(2) != 1)
             {
-                inches += height.charAt(2);
+                inches += height.charAt(3);
             }
+            //if inches is 10 or greater
             else
             {
                 inches += height.charAt(2) * 10;
@@ -83,4 +106,33 @@ public class Profile {
             bmi = (float) (weight / Math.pow(inches, 2));
         }
     }
+
+
+    public void setSelected() { selected = !selected; }
+
+    public boolean getSelected() { return selected; }
+
+    public void setIsContacted() { isContacted = !isContacted; }
+
+    public boolean getIsContacted() { return isContacted; }
+
+    public void setHasAppointment() { hasAppointment = !hasAppointment; }
+
+    public boolean getHasAppointment() { return hasAppointment; }
+
+    public void setReviewed () { reviewed = !reviewed; }
+
+    public boolean getReviewed() { return reviewed; }
+
+    public void setBackground() { background = !background; }
+
+    public boolean getBackround() { return background; }
+
+    public void setMedRecords() { medRecords = !medRecords; }
+
+    public boolean getMedRecords() { return medRecords; }
+
+    public void setInterviewed() { interviewed = !interviewed; }
+
+    public boolean getInterviewed() { return interviewed; }
 }
