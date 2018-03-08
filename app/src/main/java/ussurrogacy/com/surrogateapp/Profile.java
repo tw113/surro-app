@@ -1,6 +1,7 @@
 package ussurrogacy.com.surrogateapp;
 
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,7 +32,13 @@ public class Profile {
     private boolean medRecords = false;
     private boolean interviewed = false;
 
-    public Profile (List<String> questions, List<String> answers, int num){
+    Profile() {
+        data = new LinkedHashMap<>();
+    }
+
+    Profile (List<String> questions, List<String> answers, int num){
+
+        System.out.println(questions + "\n" + answers);
 
         //set the values of data using the questions as the key and answers as the values
         for (int i = 0; i < questions.size(); i++)

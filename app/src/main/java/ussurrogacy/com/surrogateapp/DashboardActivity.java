@@ -373,7 +373,7 @@ public class DashboardActivity extends AppCompatActivity
      * @param view - used for get list button onClick
      */
     public void getList(View view) {
-        new MakeRequestTask(this, mCredential);
+        new MakeRequestTask(this, mCredential).execute();
     }
 
     /**
@@ -412,9 +412,8 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         /**
-         * Fetch a list of names and majors of students in a sample spreadsheet:
-         * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-         * @return List of names and majors
+         * Gets the data from the google spreadsheet where surrogate form answers are stored
+         * @return
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
@@ -428,16 +427,23 @@ public class DashboardActivity extends AppCompatActivity
             List<String> questions = new ArrayList<String>();
             List<String> answers = new ArrayList<String>();
             List<Profile> profiles = new ArrayList<>();
+            int profileID = 0;
 
             if (values != null) {
-                for (int i = 0; i < values.size(); i++) {
-                    for (Object question : values.get(0)) {
-                        questions.add(question.toString());
-                    }
+                // get keys (form questions)
+                for (Object question : values.get(0)) {
+                    questions.add(question.toString());
+                }
+
+                for (int i = 1; i < values.size(); i++) {
                     for (Object answer : values.get(i)) {
                         answers.add(answer.toString());
                     }
-                    System.out.println(questions + "\n" + answers);
+                    System.out.println(questions);
+
+                    Profile profile = new Profile(questions, answers, profileID++);
+                    profiles.add(profile);
+                    System.out.println("Num of profiles: " + profiles.size());
                 }
 
             }
@@ -459,7 +465,8 @@ public class DashboardActivity extends AppCompatActivity
          */
         @Override
         protected void onPostExecute(List<String> output) {
-            //TODO: go to list of profiles fragment
+            //TODO: go to list of profiles view fragment
+            System.out.println("Executed");
         }
 
         @Override
