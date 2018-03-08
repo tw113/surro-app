@@ -32,13 +32,9 @@ public class Profile {
     private boolean medRecords = false;
     private boolean interviewed = false;
 
-    Profile() {
-        data = new LinkedHashMap<>();
-    }
-
     Profile (List<String> questions, List<String> answers, int num){
 
-        System.out.println(questions + "\n" + answers);
+        data = new LinkedHashMap<>();
 
         //set the values of data using the questions as the key and answers as the values
         for (int i = 0; i < questions.size(); i++)
