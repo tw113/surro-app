@@ -99,7 +99,8 @@
         android:onClick="getList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/approvedListButton"
-        app:srcCompat="?android:attr/actionModeFindDrawable" />
+        app:srcCompat="?android:attr/actionModeFindDrawable"
+        android:layout_marginRight="64dp" />
 
     <TextView
         android:id="@+id/textView5"
