@@ -2,6 +2,7 @@ package ussurrogacy.com.surrogateapp;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -36,10 +37,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -54,6 +52,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<ImageButton> dashboardButtons;
     private List<View> lines;
     private List<TextView> labels;
+    private List<Profile> profiles;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -105,6 +104,10 @@ public class DashboardActivity extends AppCompatActivity
         chooseAccount();
 
         messageBox.setText("Welcome, " + accountName + "!");
+    }
+
+    public List<Profile> getProfileList() {
+        return this.profiles;
     }
 
     /**
@@ -419,6 +422,8 @@ public class DashboardActivity extends AppCompatActivity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+            DashboardActivity activity = activityRef.get();
+
             String spreadsheetId = "1qIFBaQ3aiQVOwkxclxkvXPW2M9daQJuc7QzNSLpfoV0";
             String range = "A:FQ";
             ValueRange response = this.mService.spreadsheets().values()
@@ -428,7 +433,7 @@ public class DashboardActivity extends AppCompatActivity
             List<List<Object>> values = response.getValues();
             List<String> questions = new ArrayList<String>();
             List<String> answers = new ArrayList<String>();
-            List<Profile> profiles = new ArrayList<>();
+            activity.profiles = new ArrayList<>();
             int profileID = 0;
 
             if (values != null) {
@@ -443,7 +448,7 @@ public class DashboardActivity extends AppCompatActivity
                     }
 
                     Profile profile = new Profile(questions, answers, profileID++);
-                    profiles.add(profile);
+                    activity.profiles.add(profile);
                 }
 
             }
