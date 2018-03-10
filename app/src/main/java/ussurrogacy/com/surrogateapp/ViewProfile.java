@@ -1,7 +1,11 @@
 package ussurrogacy.com.surrogateapp;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +13,19 @@ import android.view.ViewGroup;
 /**
  * Class fragment for the ViewProfile UI.
  * Receives Individual profile data and populates the UI.*/
-public class ViewProfile extends Fragment {
-    private DashboardActivity activity = (DashboardActivity) getActivity();
+public class ViewProfile extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
-    public void onAttach(DashboardActivity dashboardActivity){
+    public void onAttach(Context context) {
 
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.view_profile);
 
     }
 
@@ -32,7 +38,6 @@ public class ViewProfile extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -47,7 +52,6 @@ public class ViewProfile extends Fragment {
 
     @Override
     public void onPause() {
-
         super.onPause();
     }
 
@@ -56,9 +60,8 @@ public class ViewProfile extends Fragment {
         super.onStop();
     }
 
-    @Override
     public void onDestroyView() {
-        super.onDestroyView();
+
     }
 
     @Override
@@ -66,8 +69,7 @@ public class ViewProfile extends Fragment {
         super.onDestroy();
     }
 
-    @Override
     public void onDetach() {
-        super.onDetach();
+
     }
 }
