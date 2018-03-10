@@ -7,15 +7,6 @@ import java.util.List;
 
 public class Profile {
 
-    //
-    //
-    //
-    //ADD BOOLEANS FOR THE CHECKMARKS LISTED IN THE UI ELEMENTS NEEDED DOC
-    //AND METHODS TO CHANGE THEM IF/WHEN NEEDED
-    //
-    //
-    //
-
     private LinkedHashMap<String, String> data;
     private int id;
     private String status;
@@ -52,6 +43,12 @@ public class Profile {
         //set the bmi
         setBmi();
 
+    }
+
+    //function to return the value of a specific key in the data linkedhashmap
+    public String getData(String key)
+    {
+        return data.get(key);
     }
 
     //function to change status of the profile

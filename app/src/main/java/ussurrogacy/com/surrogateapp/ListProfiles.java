@@ -30,7 +30,7 @@ public class ListProfiles extends Fragment{
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(activity.getProfiles());
+        mAdapter = new MyAdapter(activity.getProfileList());
         mRecyclerView.setAdapter(mAdapter);
     }*/
 
