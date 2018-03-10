@@ -349,7 +349,6 @@ public class DashboardActivity extends AppCompatActivity
         }
     }
 
-
     /**
      * Display an error dialog showing that Google Play Services is missing
      * or out of date.
@@ -439,11 +438,9 @@ public class DashboardActivity extends AppCompatActivity
                     for (Object answer : values.get(i)) {
                         answers.add(answer.toString());
                     }
-                    System.out.println(questions);
 
                     Profile profile = new Profile(questions, answers, profileID++);
                     profiles.add(profile);
-                    System.out.println("Num of profiles: " + profiles.size());
                 }
 
             }
@@ -451,27 +448,15 @@ public class DashboardActivity extends AppCompatActivity
             return questions;
         }
 
-
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
         /**
          *  End of request for profiles from spreadsheet
          *
-         * @param output
+         * @param questions - the list of keys for the profile class
          */
         @Override
-        protected void onPostExecute(List<String> output) {
+        protected void onPostExecute(List<String> questions) {
             //TODO: go to list of profiles view fragment
             System.out.println("Executed");
-        }
-
-        @Override
-        protected void onCancelled() {
-
         }
     }
 }
