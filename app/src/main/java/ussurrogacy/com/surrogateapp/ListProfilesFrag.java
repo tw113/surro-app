@@ -17,7 +17,7 @@ import java.util.List;
  * Class fragment for the list of profiles to be displayed and expanded
  */
 
-public class ListProfilesFrag extends Fragment{
+public class ListProfilesFrag extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
