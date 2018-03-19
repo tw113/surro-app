@@ -1,10 +1,12 @@
 package ussurrogacy.com.surrogateapp;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -15,29 +17,16 @@ import java.util.List;
  * Class fragment for the list of profiles to be displayed and expanded
  */
 
-public class ListProfiles extends AppCompatActivity{
+public class ListProfilesFrag extends Fragment{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_activity);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+    public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        return inflator.inflate(R.layout.list_profiles, container, false);
+    }
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(activity);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(getProfileList());
-        mRecyclerView.setAdapter(mAdapter);
-    }*/
 
     @Override
     public void onStart() {
@@ -103,7 +92,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                                    int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
+                .inflate(R.layout.list_profiles, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -113,7 +102,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset(position));
+        //holder.mTextView.setText(mDataset(position));
 
     }
 

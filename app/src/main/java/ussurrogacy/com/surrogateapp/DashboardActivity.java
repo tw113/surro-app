@@ -53,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<View> lines;
     private List<TextView> labels;
     private List<Profile> profiles;
-    private static List<String> question;
+    private static List<String> theQuestions;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -79,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity
         lines = new ArrayList<>();
         labels = new ArrayList<>();
         profiles = new ArrayList<>();
-        question = new ArrayList<>();
+        theQuestions = new ArrayList<>();
 
         // set rest of hideables
         setListOfHideableItems();
@@ -456,7 +456,7 @@ public class DashboardActivity extends AppCompatActivity
 
             }
 
-            question.addAll(questions);
+            activity.theQuestions.addAll(questions);
 
             return questions;
         }
