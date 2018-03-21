@@ -56,7 +56,6 @@ public class DashboardActivity extends AppCompatActivity
     private List<View> lines;
     private List<TextView> labels;
     private List<Profile> profiles;
-    private static List<String> theQuestions;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -82,7 +81,6 @@ public class DashboardActivity extends AppCompatActivity
         lines = new ArrayList<>();
         labels = new ArrayList<>();
         profiles = new ArrayList<>();
-        theQuestions = new ArrayList<>();
 
         // set rest of hideables
         setListOfHideableItems();
@@ -423,6 +421,8 @@ public class DashboardActivity extends AppCompatActivity
 
         /**
          * Gets the data from the google spreadsheet where surrogate form answers are stored
+         * and adds new Profiles based on the data
+         *
          * @return List of questions
          * @throws IOException
          */
@@ -459,8 +459,6 @@ public class DashboardActivity extends AppCompatActivity
                 }
 
             }
-
-            activity.theQuestions.addAll(questions);
 
             return activity.profiles;
         }

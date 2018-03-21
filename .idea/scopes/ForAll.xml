@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="ForAll" pattern="src[app]:ussurrogacy.com.surrogateapp.DashboardActivity||src[app]:ussurrogacy.com.surrogateapp.ListProfilesFrag||src[app]:ussurrogacy.com.surrogateapp.RecyclerAdapter||src[app]:ussurrogacy.com.surrogateapp.ViewProfile||src[app]:ussurrogacy.com.surrogateapp.Profile" />
+</component>
