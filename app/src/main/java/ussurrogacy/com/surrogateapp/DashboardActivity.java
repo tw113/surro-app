@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -421,7 +423,7 @@ public class DashboardActivity extends AppCompatActivity
 
         /**
          * Gets the data from the google spreadsheet where surrogate form answers are stored
-         * @return
+         * @return List of questions
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
@@ -468,7 +470,14 @@ public class DashboardActivity extends AppCompatActivity
          */
         @Override
         protected void onPostExecute(List<String> questions) {
-            //TODO: go to list of profiles view fragment
+            DashboardActivity activity = activityRef.get();
+            FragmentManager fragmentManager = activity.getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+            ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
+            transaction.add(listProfilesFrag, "ListProfiles");
+            transaction.commit();
+
             System.out.println("Executed");
         }
     }
