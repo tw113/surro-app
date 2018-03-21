@@ -65,7 +65,7 @@ public class ListProfilesFrag extends Fragment {
     }
 }
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<Profile> mDataset;
 
     // Provide a reference to the views for each data item
