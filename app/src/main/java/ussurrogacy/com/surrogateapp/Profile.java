@@ -77,33 +77,40 @@ public class Profile {
     {
         //pull height data and parse it
         String height = data.get("WhatIsYourHeight");
+        String weight = data.get("WhatIsYourWeightInPounds");
         int inches;
-        if (height.charAt(0) == 'S' || height.charAt(0) == 'T')
-        {
-            bmi = 0;
+        int weightInt;
+
+        //get the weight and parse into an integer
+        if (weight.equals("")) {
+            weightInt = 0;
+        } else {
+            weightInt = Integer.parseInt(weight);
         }
-        else
-        {
-            //convert the height into inches as an integer
-            inches = height.charAt(0) * 12;
 
-            //if inches is less than 10
-            if (height.charAt(2) != 1)
-            {
-                inches += height.charAt(3);
+        // check for null
+        if (!height.equals("")) {
+            if (height.charAt(0) == 'S' || height.charAt(0) == 'T') {
+                bmi = 0;
+            } else {
+                //convert the height into inches as an integer
+                inches = height.charAt(0) * 12;
+
+                //if inches is less than 10
+                if (height.charAt(2) != 1) {
+                    inches += height.charAt(3);
+                }
+                //if inches is 10 or greater
+                else {
+                    inches += height.charAt(2) * 10;
+                    inches += height.charAt(3);
+                }
+
+                //calculate the bmi using the retrieved data
+                bmi = (float) (weightInt / Math.pow(inches, 2));
             }
-            //if inches is 10 or greater
-            else
-            {
-                inches += height.charAt(2) * 10;
-                inches += height.charAt(3);
-            }
-
-            //get the weight and parse into an integer
-            int weight = Integer.parseInt(data.get("WhatIsYourWeightInPounds"));
-
-            //calculate the bmi using the retrieved data
-            bmi = (float) (weight / Math.pow(inches, 2));
+        } else {
+            bmi = 0;
         }
     }
 

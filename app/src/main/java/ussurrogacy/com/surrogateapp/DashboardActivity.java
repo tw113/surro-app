@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -390,7 +391,7 @@ public class DashboardActivity extends AppCompatActivity
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private static class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    private static class MakeRequestTask extends AsyncTask<Void, Void, List<Profile>> {
         private com.google.api.services.sheets.v4.Sheets mService = null;
         private Exception mLastError = null;
         private WeakReference<DashboardActivity> activityRef;
@@ -411,12 +412,11 @@ public class DashboardActivity extends AppCompatActivity
          * @param params no parameters needed for this task.
          */
         @Override
-        protected List<String> doInBackground(Void... params) {
+        protected List<Profile> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
-                mLastError = e;
-                cancel(true);
+                Log.w("getDataFromApi", e);
                 return null;
             }
         }
@@ -426,7 +426,7 @@ public class DashboardActivity extends AppCompatActivity
          * @return List of questions
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws IOException {
+        private List<Profile> getDataFromApi() throws IOException {
             DashboardActivity activity = activityRef.get();
 
             String spreadsheetId = "1qIFBaQ3aiQVOwkxclxkvXPW2M9daQJuc7QzNSLpfoV0";
@@ -437,7 +437,6 @@ public class DashboardActivity extends AppCompatActivity
 
             List<List<Object>> values = response.getValues();
             List<String> questions = new ArrayList<String>();
-            List<String> answers = new ArrayList<String>();
             activity.profiles = new ArrayList<>();
             int profileID = 0;
 
@@ -448,35 +447,38 @@ public class DashboardActivity extends AppCompatActivity
                 }
 
                 for (int i = 1; i < values.size(); i++) {
+                    List<String> answers = new ArrayList<String>();
                     for (Object answer : values.get(i)) {
                         answers.add(answer.toString());
                     }
 
                     Profile profile = new Profile(questions, answers, profileID++);
                     activity.profiles.add(profile);
+                    Log.i("ProfileClass", "Added Profile: "
+                            + profile.getData("FirstAndLast"));
                 }
 
             }
 
             activity.theQuestions.addAll(questions);
 
-            return questions;
+            return activity.profiles;
         }
 
         /**
          *  End of request for profiles from spreadsheet
          *
-         * @param questions - the list of keys for the profile class
+         * @param profiles - the list of keys for the profile class
          */
         @Override
-        protected void onPostExecute(List<String> questions) {
-            DashboardActivity activity = activityRef.get();
+        protected void onPostExecute(List<Profile> profiles) {
+            /*DashboardActivity activity = activityRef.get();
             FragmentManager fragmentManager = activity.getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
             ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
             transaction.add(listProfilesFrag, "ListProfiles");
-            transaction.commit();
+            transaction.commit(); */
 
             System.out.println("Executed");
         }
