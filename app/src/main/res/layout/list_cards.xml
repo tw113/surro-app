@@ -28,21 +28,21 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:text="tgarner8750@gmail.com"
+                android:text="Answer"
                 android:textColor="#616161"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/tvDescription"
+                android:id="@+id/tvKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Email"
+                android:text="Key"
                 android:textSize="15sp"
                 android:textStyle="italic"/>
 

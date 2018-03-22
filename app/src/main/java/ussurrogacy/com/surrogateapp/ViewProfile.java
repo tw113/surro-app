@@ -5,39 +5,55 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Class fragment for the ViewProfile UI.
  * Receives Individual profile data and populates the UI.*/
-public class ViewProfile extends AppCompatActivity {
+public class ViewProfile extends Fragment {
+    private Profile profile;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
 
     public void onAttach(Context context) {
-
+        super.onAttach(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_profile);
 
+
+        setUpRecyclerView();
+    }
+
+    private void setUpRecyclerView() {
+
+        mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.recyclerView);
+        mAdapter = new VPRecyclerAdapter(this.getActivity(), profile);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
 
-        //String myDataFromActivity = activity.;
+
         return inflater.inflate(R.layout.view_profile, container, false);
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
-
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -61,7 +77,7 @@ public class ViewProfile extends AppCompatActivity {
     }
 
     public void onDestroyView() {
-
+        super.onDestroyView();
     }
 
     @Override
@@ -70,6 +86,8 @@ public class ViewProfile extends AppCompatActivity {
     }
 
     public void onDetach() {
-
+        super.onDetach();
     }
+
+
 }
