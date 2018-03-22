@@ -35,8 +35,8 @@ public class ListProfilesFrag extends Fragment {
 
     public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
-        Bundle extras = getIntent().getExtras();
-        mDataSet = getArguments().getParcelableArrayList("Profiles"));
+        //Bundle extras = getIntent().getExtras();
+        mDataSet = getArguments().getParcelableArrayList("Profiles");
         return inflator.inflate(R.layout.list_profiles, container, false);
     }
 

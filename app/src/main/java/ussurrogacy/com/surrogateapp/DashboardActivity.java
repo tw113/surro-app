@@ -56,7 +56,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<ImageButton> dashboardButtons;
     private List<View> lines;
     private List<TextView> labels;
-    private ArrayList<Profile> profiles;
+    private static ArrayList<Profile> profiles;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -470,7 +470,7 @@ public class DashboardActivity extends AppCompatActivity
          * @param profiles - the list of keys for the profile class
          */
         @Override
-        protected void onPostExecute(List<Profile> profiles) {
+        protected void onPostExecute(List<Profile> mprofiles) {
             DashboardActivity activity = activityRef.get();
             FragmentManager fragmentManager = activity.getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
