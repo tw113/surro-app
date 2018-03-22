@@ -18,9 +18,12 @@ import java.util.List;
  */
 
 public class ListProfilesFrag extends Fragment {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
+    protected RecyclerView mRecyclerView;
+    protected RecyclerAdapter mAdapter;
+    protected RecyclerView.LayoutManager mLayoutManager;
+    protected List<Profile> mDataSet;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,8 @@ public class ListProfilesFrag extends Fragment {
 
     public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
+        Bundle extras = getIntent().getExtras();
+        mDataSet = getArguments().getParcelableArrayList("Profiles"));
         return inflator.inflate(R.layout.list_profiles, container, false);
     }
 
