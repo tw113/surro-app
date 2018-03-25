@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class Profile implements Parcelable{
+public class Profile {
 
     private LinkedHashMap<String, String> data;
     private int id;
@@ -30,6 +30,7 @@ public class Profile implements Parcelable{
     Profile (List<String> questions, List<String> answers, int num){
 
         data = new LinkedHashMap<>();
+        keys = new ArrayList<>();
 
         //set the values of data using the questions as the key and answers as the values
         for (int i = 0; i < questions.size(); i++)
@@ -153,7 +154,7 @@ public class Profile implements Parcelable{
 
     public boolean getInterviewed() { return interviewed; }
 
-    @Override
+    /* @Override
     public int describeContents() {
         return 0;
     }
@@ -161,5 +162,5 @@ public class Profile implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
-    }
+    } */
 }

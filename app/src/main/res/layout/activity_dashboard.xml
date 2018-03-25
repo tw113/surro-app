@@ -12,11 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="match_parent" / -->
 
-    <!-- fragment android:name="ussurrogacy.com.surrogateapp.ListProfilesFrag"
+    <fragment android:name="ussurrogacy.com.surrogateapp.ListProfilesFrag"
         android:id="@+id/profile_list"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="match_parent" / -->
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/imageView2"

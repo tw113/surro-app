@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,25 @@ public class ListProfilesFrag extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Profile> mDataSet;
 
+    private List<Profile> profiles;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        DashboardActivity activity = new DashboardActivity();
+
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
         mDataSet = new ArrayList<>();
+
+        // initialize list of profiles
+        mDataSet = activity.getProfileList();
     }
 
     public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
-        mDataSet = getArguments().getParcelableArrayList("Profiles");
+        //mDataSet = getArguments().getParcelableArrayList("Profiles");
         return inflator.inflate(R.layout.list_profiles, container, false);
     }
 

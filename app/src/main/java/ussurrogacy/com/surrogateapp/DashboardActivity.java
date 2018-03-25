@@ -470,13 +470,13 @@ public class DashboardActivity extends AppCompatActivity
          */
         @Override
         protected void onPostExecute(List<Profile> profiles) {
-            /*DashboardActivity activity = activityRef.get();
+            DashboardActivity activity = activityRef.get();
             FragmentManager fragmentManager = activity.getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
             ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
             transaction.add(listProfilesFrag, "ListProfiles");
-            transaction.commit(); */
+            transaction.commit();
 
             System.out.println("Executed");
         }
