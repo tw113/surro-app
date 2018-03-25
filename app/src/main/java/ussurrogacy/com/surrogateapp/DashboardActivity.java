@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,7 +55,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<ImageButton> dashboardButtons;
     private List<View> lines;
     private List<TextView> labels;
-    private static ArrayList<Profile> profiles;
+    private List<Profile> profiles;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -470,17 +469,14 @@ public class DashboardActivity extends AppCompatActivity
          * @param profiles - the list of keys for the profile class
          */
         @Override
-        protected void onPostExecute(List<Profile> mprofiles) {
-            DashboardActivity activity = activityRef.get();
+        protected void onPostExecute(List<Profile> profiles) {
+            /*DashboardActivity activity = activityRef.get();
             FragmentManager fragmentManager = activity.getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
             ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("Profiles", profiles);
-            listProfilesFrag.setArguments(bundle);
             transaction.add(listProfilesFrag, "ListProfiles");
-            transaction.commit();
+            transaction.commit(); */
 
             System.out.println("Executed");
         }
