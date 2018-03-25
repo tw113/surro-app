@@ -30,12 +30,11 @@ public class ListProfilesFrag extends Fragment {
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
-
+        mDataSet = new ArrayList<>();
     }
 
     public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
-        //Bundle extras = getIntent().getExtras();
         mDataSet = getArguments().getParcelableArrayList("Profiles");
         return inflator.inflate(R.layout.list_profiles, container, false);
     }

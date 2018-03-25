@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-        private List<Profile> mDataset;
+        private List<Profile> mDataSet;
 
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -29,8 +29,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         // Provide a suitable constructor (depends on the kind of dataset)
         public RecyclerAdapter(List<Profile> myDataset) {
-            mDataset = new ArrayList<>();
-            mDataset.addAll(myDataset);
+            mDataSet = new ArrayList<>();
+            mDataSet.addAll(myDataset);
         }
 
         // Create new views (invoked by the layout manager)
@@ -57,7 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         @Override
         public int getItemCount() {
 
-            return mDataset.size();
+            return mDataSet.size();
         }
 
 
