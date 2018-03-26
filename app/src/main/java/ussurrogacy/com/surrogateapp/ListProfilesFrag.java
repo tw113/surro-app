@@ -43,7 +43,7 @@ public class ListProfilesFrag extends Fragment {
         mQuestions = activity.getQuestions();
     }
 
-    public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
+    public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
 
         //mDataSet = getArguments().getParcelableArrayList("Profiles");
         if(container != null) {
