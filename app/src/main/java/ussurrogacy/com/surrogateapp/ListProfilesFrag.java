@@ -24,7 +24,7 @@ public class ListProfilesFrag extends Fragment {
     protected RecyclerAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Profile> mDataSet;
-
+    protected List<String> mQuestions;
     private List<Profile> profiles;
 
 
@@ -36,15 +36,32 @@ public class ListProfilesFrag extends Fragment {
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
         mDataSet = new ArrayList<>();
+        mQuestions = new ArrayList<>();
 
         // initialize list of profiles
         mDataSet = activity.getProfileList();
+        mQuestions = activity.getQuestions();
     }
 
     public View onCreateView(Bundle savedInstanceState, ViewGroup container, LayoutInflater inflator) {
 
         //mDataSet = getArguments().getParcelableArrayList("Profiles");
-        return inflator.inflate(R.layout.list_profiles, container, false);
+        if(container != null) {
+            View v = inflator.inflate(R.layout.list_profiles, container, false);
+            View tv = v.findViewById(R.id.text);
+
+            //populate the recyclerview dynamically
+            for (int i = 0; i < profiles.size(); i++) {
+                //((TextView) tv).setText();
+            }
+            return null;
+        }
+
+        else
+        {
+            System.out.println("ListProfilesFrag conatiner = null");
+            return null;
+        }
     }
 
 

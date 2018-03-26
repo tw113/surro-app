@@ -56,6 +56,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<View> lines;
     private List<TextView> labels;
     private List<Profile> profiles;
+    private static List<String> questions;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -81,6 +82,7 @@ public class DashboardActivity extends AppCompatActivity
         lines = new ArrayList<>();
         labels = new ArrayList<>();
         profiles = new ArrayList<>();
+        questions = new ArrayList<>();
 
         // set rest of hideables
         setListOfHideableItems();
@@ -113,6 +115,8 @@ public class DashboardActivity extends AppCompatActivity
     public List<Profile> getProfileList() {
         return this.profiles;
     }
+
+    public List<String> getQuestions() { return this.questions; }
 
     /**
      * Sets all of the UI elements that need to be hideable during app use
@@ -436,7 +440,7 @@ public class DashboardActivity extends AppCompatActivity
                     .execute();
 
             List<List<Object>> values = response.getValues();
-            List<String> questions = new ArrayList<String>();
+            //List<String> questions = new ArrayList<String>();
             activity.profiles = new ArrayList<>();
             int profileID = 0;
 

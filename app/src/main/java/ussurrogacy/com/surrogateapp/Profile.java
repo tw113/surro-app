@@ -14,7 +14,6 @@ public class Profile {
     private int id;
     private String status;
     private float bmi;
-    private List<String> keys;
 
     //profile checkmarks
     private boolean selected = false;
@@ -30,13 +29,11 @@ public class Profile {
     Profile (List<String> questions, List<String> answers, int num){
 
         data = new LinkedHashMap<>();
-        keys = new ArrayList<>();
 
         //set the values of data using the questions as the key and answers as the values
         for (int i = 0; i < questions.size(); i++)
         {
             data.put((questions.get(i)), answers.get(i));
-            keys.add(questions.get(i));
         }
 
         //set the id of the profile
@@ -49,11 +46,6 @@ public class Profile {
         //set the bmi
         setBmi();
 
-    }
-
-    //function to return the a key from the list of keys
-    public String getKey(int position) {
-        return keys.get(position);
     }
 
     //function to return the value of a specific key in the data linkedhashmap
