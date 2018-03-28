@@ -61,7 +61,7 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
         }
 
         public void setData(int position){
-            this.key.setText(profile.getKey(position));
+            //this.key.setText(profile.getKey(position));
             this.answer.setText(profile.getData(key.toString()));
             //this.imgThumb.setImageResource();
             this.position = position;
