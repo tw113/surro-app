@@ -113,8 +113,24 @@ public class DashboardActivity extends AppCompatActivity
         messageBox.setText("Welcome, " + accountName + "!");
     }
 
+
+    /**
+     * Called when surrogate profile list button is pressed
+     * Needs the GoogleAccountCredential from the login activity
+     *
+     * @param view - used for get list button onClick
+     */
+    public void getList(View view) {
+        new MakeRequestTask(this, mCredential).execute();
+    }
+
+
     public List<Profile> getProfileList() {
         return this.profiles;
+    }
+
+    public void setProfileList(List<Profile> profiles) {
+        this.profiles = profiles;
     }
 
     public List<String> getQuestions() { return this.questions; }
@@ -381,16 +397,6 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     /**
-     * Called when surrogate profile list button is pressed
-     * Needs the GoogleAccountCredential from the login activity
-     *
-     * @param view - used for get list button onClick
-     */
-    public void getList(View view) {
-        new MakeRequestTask(this, mCredential).execute();
-    }
-
-    /**
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
@@ -469,14 +475,14 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         /**
-         *  End of request for profiles from spreadsheet
+         *  When done getting spreadsheet data, put data into list
          *
-         * @param profiles - the list of keys for the profile class
+         * @param profiles - the list of profiles
          */
         @Override
         protected void onPostExecute(List<Profile> profiles) {
             DashboardActivity activity = activityRef.get();
-            activity.profiles = profiles;
+            activity.setProfileList(profiles);
 
             FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
             transaction.replace(activity.findViewById(R.id.fragment_container).getId(),

@@ -33,7 +33,6 @@ public class ListProfilesFrag extends Fragment {
         super.onCreate(savedInstanceState);
 
         DashboardActivity activity = new DashboardActivity();
-        profiles = activity.getProfileList();
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -41,10 +40,10 @@ public class ListProfilesFrag extends Fragment {
         mQuestions = new ArrayList<>();
 
         // initialize list of profiles
-        mDataSet = activity.getProfileList();
+        mDataSet = activity.getProfileList(); //TODO: this returns null, don't know why
         mQuestions = activity.getQuestions();
 
-        mAdapter = new RecyclerAdapter(profiles);
+        mAdapter = new RecyclerAdapter(mDataSet);
         mRecyclerView = new RecyclerView(getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
