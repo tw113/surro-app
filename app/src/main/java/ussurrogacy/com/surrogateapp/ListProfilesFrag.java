@@ -48,13 +48,15 @@ public class ListProfilesFrag extends Fragment {
         //mDataSet = getArguments().getParcelableArrayList("Profiles");
         if(container != null) {
             View v = inflator.inflate(R.layout.list_profiles, container, false);
-            View tv = v.findViewById(R.id.text);
+            RecyclerView rv = v.findViewById(R.id.my_recycler_view);
 
             //populate the recyclerview dynamically
             for (int i = 0; i < profiles.size(); i++) {
+
+                //TextView tv = new TextView();
                 //((TextView) tv).setText();
             }
-            return null;
+            return v;
         }
 
         else
