@@ -1,7 +1,6 @@
 package ussurrogacy.com.surrogateapp;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,17 +39,31 @@ public class ListProfilesFrag extends Fragment {
         mQuestions = new ArrayList<>();
 
         // initialize list of profiles
-        mDataSet = activity.getProfileList(); //TODO: this returns null, don't know why
+        mDataSet = activity.getProfileList();
         mQuestions = activity.getQuestions();
-
-        mAdapter = new RecyclerAdapter(mDataSet);
-        mRecyclerView = new RecyclerView(getActivity());
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflator.inflate(R.layout.list_profiles, container, false);
+        //mDataSet = getArguments().getParcelableArrayList("Profiles");
+        if(container != null) {
+            View v = inflator.inflate(R.layout.list_profiles, container, true);
+            RecyclerView rv = v.findViewById(R.id.my_recycler_view);
+
+            //populate the recyclerview dynamically
+            for (int i = 0; i < profiles.size(); i++) {
+
+                //TextView tv = new TextView();
+                //((TextView) tv).setText();
+            }
+            return v;
+        }
+
+        else
+        {
+            System.out.println("ListProfilesFrag conatiner = null");
+            return null;
+        }
     }
 
 
