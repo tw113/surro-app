@@ -1,6 +1,7 @@
 package ussurrogacy.com.surrogateapp;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,13 +26,11 @@ public class ListProfilesFrag extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Profile> mDataSet;
     protected List<String> mQuestions;
-    private List<Profile> profiles;
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DashboardActivity activity = new DashboardActivity();
+        DashboardActivity activity = (DashboardActivity) getActivity();
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -41,29 +40,18 @@ public class ListProfilesFrag extends Fragment {
         // initialize list of profiles
         mDataSet = activity.getProfileList();
         mQuestions = activity.getQuestions();
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new RecyclerAdapter(mDataSet);
+        mRecyclerView = activity.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mLayoutManager.addView(mRecyclerView);
     }
 
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
 
-        //mDataSet = getArguments().getParcelableArrayList("Profiles");
-        if(container != null) {
-            View v = inflator.inflate(R.layout.list_profiles, container, true);
-            RecyclerView rv = v.findViewById(R.id.my_recycler_view);
-
-            //populate the recyclerview dynamically
-            for (int i = 0; i < profiles.size(); i++) {
-
-                //TextView tv = new TextView();
-                //((TextView) tv).setText();
-            }
-            return v;
-        }
-
-        else
-        {
-            System.out.println("ListProfilesFrag conatiner = null");
-            return null;
-        }
+        return inflator.inflate(R.layout.list_profiles, container, false);
     }
 
 
