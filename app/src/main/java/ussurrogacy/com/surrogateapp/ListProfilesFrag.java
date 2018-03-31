@@ -26,13 +26,11 @@ public class ListProfilesFrag extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Profile> mDataSet;
     protected List<String> mQuestions;
-    private List<Profile> profiles;
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DashboardActivity activity = new DashboardActivity();
+        DashboardActivity activity = (DashboardActivity) getActivity();
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -40,12 +38,15 @@ public class ListProfilesFrag extends Fragment {
         mQuestions = new ArrayList<>();
 
         // initialize list of profiles
-        mDataSet = activity.getProfileList(); //TODO: this returns null, don't know why
+        mDataSet = activity.getProfileList();
         mQuestions = activity.getQuestions();
 
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new RecyclerAdapter(mDataSet);
-        mRecyclerView = new RecyclerView(getActivity());
+        mRecyclerView = activity.findViewById(R.id.my_recycler_view);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mLayoutManager.addView(mRecyclerView);
     }
 
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
