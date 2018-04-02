@@ -1,10 +1,6 @@
 package ussurrogacy.com.surrogateapp;
 
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -146,13 +142,4 @@ public class Profile {
 
     public boolean getInterviewed() { return interviewed; }
 
-    /* @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-    } */
 }

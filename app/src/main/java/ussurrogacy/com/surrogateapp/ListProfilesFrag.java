@@ -24,8 +24,8 @@ public class ListProfilesFrag extends Fragment {
     protected RecyclerView mRecyclerView;
     protected RecyclerAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected List<Profile> mDataSet;
-    protected List<String> mQuestions;
+    protected List<Profile> profiles;
+    protected List<String> questions;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,19 +34,16 @@ public class ListProfilesFrag extends Fragment {
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
-        mDataSet = new ArrayList<>();
-        mQuestions = new ArrayList<>();
+        profiles = new ArrayList<>();
+        questions = new ArrayList<>();
 
         // initialize list of profiles
-        mDataSet = activity.getProfileList();
-        mQuestions = activity.getQuestions();
+        this.profiles.addAll(activity.getProfileList());
+        questions.addAll(activity.getQuestions());
 
+        mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.rv);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new RecyclerAdapter(mDataSet);
-        mRecyclerView = activity.findViewById(R.id.my_recycler_view);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mLayoutManager.addView(mRecyclerView);
+
     }
 
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package ussurrogacy.com.surrogateapp;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,24 +15,31 @@ import java.util.List;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ProfileViewHolder> {
-        private List<Profile> mDataSet;
+        private List<Profile> profiles;
+        private List<String> questions;
 
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        static class ProfileViewHolder extends RecyclerView.ViewHolder {
-            // each data item is just a string in this case
-            TextView mTextView;
-            ProfileViewHolder(TextView v) {
-                super(v);
-                mTextView = v;
+        public static class ProfileViewHolder extends RecyclerView.ViewHolder {
+            CardView cv;
+            TextView profileName;
+            TextView profileAge;
+            TextView profileBmi;
+
+            ProfileViewHolder(View itemView) {
+                super(itemView);
+                cv = (CardView)itemView.findViewById(R.id.cv);
+                profileName = (TextView)itemView.findViewById(R.id.profile_name);
+                profileAge = (TextView)itemView.findViewById(R.id.profile_age);
+                profileBmi = (TextView)itemView.findViewById(R.id.profile_bmi);
             }
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        RecyclerAdapter(List<Profile> myDataset) {
-            mDataSet = new ArrayList<>();
-            mDataSet.addAll(myDataset);
+        RecyclerAdapter(List<Profile> profiles, List<String> questions) {
+            this.profiles = new ArrayList<>();
+            this.profiles.addAll(profiles);
+
+            this.questions = new ArrayList<>();
+            this.questions.addAll(questions);
         }
 
         // Create new views (invoked by the layout manager)
@@ -45,22 +53,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             return vh;
         }
 
-    // Replace the contents of a view (invoked by the layout manager)
         @Override
-        public void onBindViewHolder(ProfileViewHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.mTextView.setText(mDataSet.toString());
-
+        public void onBindViewHolder(ProfileViewHolder profileViewHolder, int i) {
+            profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(i)));
+            profileViewHolder.profileAge.setText(profiles.get(i).getData(questions.get(i)));
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
 
-            return mDataSet.size();
+            return profiles.size();
         }
 
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+        }
 
 }
 
