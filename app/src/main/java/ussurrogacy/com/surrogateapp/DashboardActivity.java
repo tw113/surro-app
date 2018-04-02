@@ -20,13 +20,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
@@ -35,6 +40,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -58,6 +67,11 @@ public class DashboardActivity extends AppCompatActivity
     private List<Profile> profiles;
     private static List<String> questions;
 
+    private FirebaseAuth firebaseAuth;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private ProgressBar progressBar;
+
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
@@ -76,6 +90,13 @@ public class DashboardActivity extends AppCompatActivity
 
         // set login button so can be hidden
         loginButton = findViewById(R.id.googleLoginButton);
+
+        // initialize Firebase auth and login boxes
+        firebaseAuth = FirebaseAuth.getInstance();
+        editTextEmail = findViewById(R.id.editText_email);
+        editTextPassword = findViewById(R.id.editText_password);
+        progressBar = findViewById(R.id.progressBar_login);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         // initialize lists
         dashboardButtons = new ArrayList<>();
@@ -97,9 +118,13 @@ public class DashboardActivity extends AppCompatActivity
         if (accountName != null) {
             showDashboardItems();
             loginButton.setVisibility(Button.INVISIBLE);
+            editTextPassword.setVisibility(EditText.INVISIBLE);
+            editTextEmail.setVisibility(EditText.INVISIBLE);
         } else {
             hideDashboardItems();
             loginButton.setVisibility(Button.VISIBLE);
+            editTextEmail.setVisibility(EditText.VISIBLE);
+            editTextPassword.setVisibility(EditText.VISIBLE);
         }
 
     }
@@ -108,9 +133,43 @@ public class DashboardActivity extends AppCompatActivity
      *  when login button pressed
      */
     public void login(View view) {
-        chooseAccount();
+        // hide the keyboard if login is pressed
+        hideSoftKeyboard(this);
 
-        messageBox.setText("Welcome, " + accountName + "!");
+        // if theres more than six characters in the password box
+        // then start the login process
+        if (editTextPassword.getText().length() > 8) {
+            chooseAccount();
+        }
+        else {
+            Toast.makeText(this, "Password must be at least 8 characters",
+                            Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void signInToFirebase() {
+        firebaseAuth.signInWithEmailAndPassword(accountName, editTextPassword.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success
+                            Log.d("Firebase", "signInWithEmail:success");
+                            messageBox.setText("Welcome, " + accountName + "!");
+                            editTextPassword.setVisibility(EditText.INVISIBLE);
+                            editTextEmail.setVisibility(EditText.INVISIBLE);
+                            loginButton.setVisibility(Button.INVISIBLE);
+                            showDashboardItems();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("Firebase", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(),
+                                    "Incorrect Username/Password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 
@@ -123,7 +182,6 @@ public class DashboardActivity extends AppCompatActivity
     public void getList(View view) {
         new MakeRequestTask(this, mCredential).execute();
     }
-
 
     public List<Profile> getProfileList() {
         return this.profiles;
@@ -204,6 +262,16 @@ public class DashboardActivity extends AppCompatActivity
         }
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if (activity.getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
     /**
      * Attempts to set the account used with the API credentials. If an account
      * name was previously saved it will use that one; otherwise an account
@@ -227,8 +295,7 @@ public class DashboardActivity extends AppCompatActivity
                 this.accountName = accountName;
 
                 // someone is logged in
-                showDashboardItems();
-                loginButton.setVisibility(Button.INVISIBLE);
+                signInToFirebase();
 
             } else {
                 // Start a dialog from which the user can choose an account
@@ -266,8 +333,7 @@ public class DashboardActivity extends AppCompatActivity
                     messageBox.setText(REQ_GOOGLE_PLAY);
                 } else {
                     // someone is logged in
-                    showDashboardItems();
-                    loginButton.setVisibility(Button.INVISIBLE);
+                    signInToFirebase();
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -286,16 +352,14 @@ public class DashboardActivity extends AppCompatActivity
                         this.accountName = accountName;
 
                         // someone is logged in
-                        showDashboardItems();
-                        loginButton.setVisibility(Button.INVISIBLE);
+                        signInToFirebase();
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
                     // someone is logged in
-                    showDashboardItems();
-                    loginButton.setVisibility(Button.INVISIBLE);
+                    signInToFirebase();
                 }
                 break;
         }

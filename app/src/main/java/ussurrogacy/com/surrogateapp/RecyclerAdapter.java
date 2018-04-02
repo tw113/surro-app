@@ -19,7 +19,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
         // you provide access to all the views for a data item in a view holder
-        public static class ProfileViewHolder extends RecyclerView.ViewHolder {
+        static class ProfileViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
             TextView mTextView;
             ProfileViewHolder(TextView v) {
