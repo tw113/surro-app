@@ -43,7 +43,7 @@ public class ListProfilesFrag extends Fragment {
 
         //initialize recyclerview and layoutmanager
         //set recyclerview's layoutmanager to the layoutmanager in the fragment
-        mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.rv);
+        mRecyclerView = mRecyclerView.findViewById(R.id.rv);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

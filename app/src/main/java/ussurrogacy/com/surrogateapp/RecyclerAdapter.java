@@ -21,15 +21,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
         public static class ProfileViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
             TextView profileName;
-            TextView profileAge;
+            TextView profileDob;
             TextView profileBmi;
 
             ProfileViewHolder(View itemView) {
                 super(itemView);
-                cv = (CardView)itemView.findViewById(R.id.cv);
-                profileName = (TextView)itemView.findViewById(R.id.profile_name);
-                profileAge = (TextView)itemView.findViewById(R.id.profile_age);
-                profileBmi = (TextView)itemView.findViewById(R.id.profile_bmi);
+                cv = itemView.findViewById(R.id.cv);
+                profileName = itemView.findViewById(R.id.profile_name);
+                profileDob = itemView.findViewById(R.id.profile_dob);
+                profileBmi = itemView.findViewById(R.id.profile_bmi);
             }
         }
 
@@ -55,8 +55,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
 
         @Override
         public void onBindViewHolder(ProfileViewHolder profileViewHolder, int i) {
-            profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(i)));
-            profileViewHolder.profileAge.setText(profiles.get(i).getData(questions.get(i)));
+            profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(1)));
+            profileViewHolder.profileDob.setText(profiles.get(i).getData(questions.get(11)));
+            profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
         }
 
         // Return the size of your dataset (invoked by the layout manager)

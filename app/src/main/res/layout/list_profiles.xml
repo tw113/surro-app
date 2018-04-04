@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_age"
+                android:id="@+id/profile_dob"
                 android:layout_below="@+id/profile_name"
                 />
 
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/profile_bmi"
-                android:layout_below="@+id/profile_age"
+                android:layout_below="@+id/profile_dob"
                 />
 
         </RelativeLayout>
