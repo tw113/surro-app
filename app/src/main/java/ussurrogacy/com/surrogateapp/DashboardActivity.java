@@ -66,6 +66,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<TextView> labels;
     private List<Profile> profiles;
     private static List<String> questions;
+    private Boolean taskComplete = false;
 
     private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
@@ -181,6 +182,14 @@ public class DashboardActivity extends AppCompatActivity
      */
     public void getList(View view) {
         new MakeRequestTask(this, mCredential).execute();
+
+        if(taskComplete.equals(true)) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.add(findViewById(R.id.fragment_container).getId(),
+                    new ListProfilesFrag());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     public List<Profile> getProfileList() {
@@ -464,13 +473,14 @@ public class DashboardActivity extends AppCompatActivity
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private static class MakeRequestTask extends AsyncTask<Void, Void, List<Profile>> {
+    private static class MakeRequestTask extends AsyncTask<Void, Integer, List<Profile>> {
         private com.google.api.services.sheets.v4.Sheets mService = null;
         private Exception mLastError = null;
         private WeakReference<DashboardActivity> activityRef;
 
         MakeRequestTask(DashboardActivity activity, GoogleAccountCredential credential) {
             activityRef = new WeakReference<>(activity);
+            activity.progressBar.setVisibility(ProgressBar.VISIBLE);
 
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -525,6 +535,7 @@ public class DashboardActivity extends AppCompatActivity
                     List<String> answers = new ArrayList<String>();
                     for (Object answer : values.get(i)) {
                         answers.add(answer.toString());
+                        publishProgress(i);
                     }
 
                     Profile profile = new Profile(questions, answers, profileID++);
@@ -538,6 +549,12 @@ public class DashboardActivity extends AppCompatActivity
             return activity.profiles;
         }
 
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            DashboardActivity activity = activityRef.get();
+            activity.progressBar.setProgress(progress[0], true);
+        }
+
         /**
          *  When done getting spreadsheet data, put data into list
          *
@@ -548,10 +565,7 @@ public class DashboardActivity extends AppCompatActivity
             DashboardActivity activity = activityRef.get();
             activity.setProfileList(profiles);
 
-            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-            transaction.replace(activity.findViewById(R.id.fragment_container).getId(),
-                    new ListProfilesFrag());
-            transaction.commit();
+            activity.taskComplete = true;
         }
     }
 
