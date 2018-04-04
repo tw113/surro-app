@@ -41,9 +41,15 @@ public class ListProfilesFrag extends Fragment {
         this.profiles.addAll(activity.getProfileList());
         questions.addAll(activity.getQuestions());
 
+        //initialize recyclerview and layoutmanager
+        //set recyclerview's layoutmanager to the layoutmanager in the fragment
         mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.rv);
         mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        //initialize recycleradapter and set the recyclerview's adapter to it
+        mAdapter = new RecyclerAdapter(profiles, questions);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState) {
