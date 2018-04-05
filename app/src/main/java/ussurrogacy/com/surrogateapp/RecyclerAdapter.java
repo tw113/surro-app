@@ -18,7 +18,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
         private List<Profile> profiles;
         private List<String> questions;
 
-        public static class ProfileViewHolder extends RecyclerView.ViewHolder {
+        static class ProfileViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
             TextView profileName;
             TextView profileDob;
@@ -33,7 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             }
         }
 
-        // Provide a suitable constructor (depends on the kind of dataset)
+        // add the profiles to local data member
         RecyclerAdapter(List<Profile> profiles, List<String> questions) {
             this.profiles = new ArrayList<>();
             this.profiles.addAll(profiles);

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -73,8 +74,10 @@ public class ListProfilesFrag extends Fragment {
 
     @Override
     public void onPause() {
-
         super.onPause();
+
+        FrameLayout frameLayout = getActivity().findViewById(R.id.fragment_container);
+        frameLayout.setVisibility(FrameLayout.INVISIBLE);
     }
 
     @Override

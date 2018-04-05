@@ -6,31 +6,17 @@
     android:layout_height="match_parent"
     tools:context="ussurrogacy.com.surrogateapp.DashboardActivity">
 
-    <!-- fragment android:name="ussurrogacy.com.surrogateapp.ViewProfile"
-        android:id="@+id/list"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" / -->
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
-
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="US-Surrogacy Profiles"
         android:textColor="@android:color/black"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +30,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <View
         android:id="@+id/line_left"
@@ -163,7 +149,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <EditText
         android:id="@+id/editText_password"
@@ -191,5 +177,12 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:visibility="invisible"></FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

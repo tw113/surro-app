@@ -10,6 +10,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -67,7 +68,6 @@ public class DashboardActivity extends AppCompatActivity
     private List<TextView> labels;
     private List<Profile> profiles;
     private static List<String> questions;
-    private Boolean taskComplete = false;
 
     private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
@@ -190,8 +190,9 @@ public class DashboardActivity extends AppCompatActivity
     public void loadListFragment(View view) {
         ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(frameLayout.getId(), listProfilesFrag);
+        transaction.add(frameLayout.getId(), listProfilesFrag);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -239,9 +240,11 @@ public class DashboardActivity extends AppCompatActivity
         TextView settingsLabel = findViewById(R.id.textView5);
         TextView approvedLabel = findViewById(R.id.textView6);
         TextView profileListLabel = findViewById(R.id.textView7);
+        TextView title = findViewById(R.id.title);
         labels.add(settingsLabel);
         labels.add(approvedLabel);
         labels.add(profileListLabel);
+        labels.add(title);
     }
 
     /**
@@ -578,7 +581,6 @@ public class DashboardActivity extends AppCompatActivity
             DashboardActivity activity = activityRef.get();
             activity.setProfileList(profiles);
             activity.progressBar.setVisibility(ProgressBar.GONE);
-            activity.taskComplete = true;
             Log.i("GoogleSheetsTask", "Task Complete");
         }
     }
