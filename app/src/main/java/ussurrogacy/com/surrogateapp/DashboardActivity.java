@@ -186,6 +186,7 @@ public class DashboardActivity extends AppCompatActivity
         new MakeRequestTask(this, mCredential).execute();
     }
 
+    // start the list profiles fragment
     public void loadListFragment(View view) {
         ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
@@ -193,6 +194,15 @@ public class DashboardActivity extends AppCompatActivity
         transaction.replace(frameLayout.getId(), listProfilesFrag);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 
     public List<Profile> getProfileList() {
