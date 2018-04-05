@@ -44,10 +44,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
 
         // Create new views (invoked by the layout manager)
         @Override
-        public ProfileViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+        public ProfileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             // create a new view
-            TextView v = (TextView) LayoutInflater.from(parent.getContext())
+            View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_cards, parent, false);
             ProfileViewHolder vh = new ProfileViewHolder(v);
             return vh;
@@ -55,9 +54,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
 
         @Override
         public void onBindViewHolder(ProfileViewHolder profileViewHolder, int i) {
-            profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(1)));
-            profileViewHolder.profileDob.setText(profiles.get(i).getData(questions.get(11)));
-            profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
+            //profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(1)));
+            //profileViewHolder.profileDob.setText(profiles.get(i).getData(questions.get(11)));
+            //profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
         }
 
         // Return the size of your dataset (invoked by the layout manager)

@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -186,10 +187,11 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     public void loadListFragment(View view) {
-        //TODO: The fragment is not starting when press "Profile List" button -- Why?
+        ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
+        FrameLayout frameLayout = findViewById(R.id.fragment_container);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(findViewById(R.id.fragment_container).getId(),
-                new ListProfilesFrag());
+        transaction.replace(frameLayout.getId(), listProfilesFrag);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
