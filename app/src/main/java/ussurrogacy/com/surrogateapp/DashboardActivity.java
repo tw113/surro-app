@@ -141,6 +141,7 @@ public class DashboardActivity extends AppCompatActivity
         // then start the login process
         if (editTextPassword.getText().length() > 8) {
             chooseAccount();
+            getList();
         }
         else {
             Toast.makeText(this, "Password must be at least 8 characters",
@@ -180,16 +181,16 @@ public class DashboardActivity extends AppCompatActivity
      *
      * @param view - used for get list button onClick
      */
-    public void getList(View view) {
+    private void getList() {
         new MakeRequestTask(this, mCredential).execute();
+    }
 
-        if(taskComplete.equals(true)) {
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.add(findViewById(R.id.fragment_container).getId(),
-                    new ListProfilesFrag());
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+    public void loadListFragment(View view) {
+        //TODO: The fragment is not starting when press "Profile List" button -- Why?
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(findViewById(R.id.fragment_container).getId(),
+                new ListProfilesFrag());
+        transaction.commit();
     }
 
     public List<Profile> getProfileList() {
@@ -564,8 +565,9 @@ public class DashboardActivity extends AppCompatActivity
         protected void onPostExecute(List<Profile> profiles) {
             DashboardActivity activity = activityRef.get();
             activity.setProfileList(profiles);
-
+            activity.progressBar.setVisibility(ProgressBar.GONE);
             activity.taskComplete = true;
+            Log.i("GoogleSheetsTask", "Task Complete");
         }
     }
 
