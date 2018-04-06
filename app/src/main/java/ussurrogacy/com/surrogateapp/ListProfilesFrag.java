@@ -31,7 +31,9 @@ public class ListProfilesFrag extends Fragment {
 
         // add the back button when fragment is created
         if (activity.getSupportActionBar() != null) {
+            String title = "Surrogate Profiles";
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setTitle(title);
         }
 
         // Initialize dataset, this data would usually come from a local content provider or
@@ -76,8 +78,17 @@ public class ListProfilesFrag extends Fragment {
     public void onPause() {
         super.onPause();
 
+        DashboardActivity activity = (DashboardActivity) getActivity();
+
         FrameLayout frameLayout = getActivity().findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.INVISIBLE);
+
+        // remove the back button when fragment is paused
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            String title = "Dashboard";
+            activity.getSupportActionBar().setTitle(title);
+        }
     }
 
     @Override

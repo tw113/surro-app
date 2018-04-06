@@ -54,8 +54,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
 
         @Override
         public void onBindViewHolder(ProfileViewHolder profileViewHolder, int i) {
-            profileViewHolder.profileName.setText(profiles.get(i).getData(questions.get(1)));
-            profileViewHolder.profileDob.setText(profiles.get(i).getData(questions.get(11)));
+            profileViewHolder.profileName.setText(profiles.get(i).getData("FirstAndLast"));
+            profileViewHolder.profileDob.setText(profiles.get(i).getData("DateOfBirth"));
             profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
         }
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ussurrogacy.com.surrogateapp.DashboardActivity">
+    tools:context="ussurrogacy.com.surrogateapp.DashboardActivity"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/title"
@@ -148,6 +149,7 @@
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:textColor="@color/cardview_light_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -162,6 +164,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:textColor="@color/cardview_light_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_email" />
@@ -183,8 +186,8 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/background_light"
-        android:visibility="invisible">
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

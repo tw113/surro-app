@@ -11,7 +11,9 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -76,6 +78,12 @@ public class DashboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        // change actionbar's title
+        if (getSupportActionBar() != null) {
+            String title = "Login";
+            getSupportActionBar().setTitle(title);
+        }
 
         // set login button so can be hidden
         loginButton = findViewById(R.id.googleLoginButton);
@@ -175,6 +183,8 @@ public class DashboardActivity extends AppCompatActivity
     // start the list profiles fragment
     public void loadListFragment(View view) {
         ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
+        listProfilesFrag.setEnterTransition(new Slide(Gravity.END));
+        listProfilesFrag.setReturnTransition(new Slide(Gravity.START));
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -520,6 +530,12 @@ public class DashboardActivity extends AppCompatActivity
             DashboardActivity activity = activityRef.get();
             activity.setProfileList(profiles);
             activity.progressBar.setVisibility(ProgressBar.GONE);
+
+            if (activity.getSupportActionBar() != null) {
+                String title = "Dashboard";
+                activity.getSupportActionBar().setTitle(title);
+            }
+
             Log.i("GoogleSheetsTask", "Task Complete");
         }
     }
