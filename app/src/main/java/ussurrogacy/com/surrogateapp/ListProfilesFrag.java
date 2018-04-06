@@ -32,6 +32,7 @@ public class ListProfilesFrag extends Fragment {
         super.onCreate(savedInstanceState);
 
         DashboardActivity activity = (DashboardActivity) getActivity();
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -60,7 +61,6 @@ public class ListProfilesFrag extends Fragment {
 
         return view;
     }
-
 
     @Override
     public void onStart() {

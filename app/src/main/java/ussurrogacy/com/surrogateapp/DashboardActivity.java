@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -68,6 +69,7 @@ public class DashboardActivity extends AppCompatActivity
     private List<TextView> labels;
     private List<Profile> profiles;
     private static List<String> questions;
+    private  ListProfilesFrag listProfilesFrag;
 
     private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
@@ -179,8 +181,6 @@ public class DashboardActivity extends AppCompatActivity
     /**
      * Called when surrogate profile list button is pressed
      * Needs the GoogleAccountCredential from the login activity
-     *
-     * @param view - used for get list button onClick
      */
     private void getList() {
         new MakeRequestTask(this, mCredential).execute();
@@ -188,7 +188,7 @@ public class DashboardActivity extends AppCompatActivity
 
     // start the list profiles fragment
     public void loadListFragment(View view) {
-        ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
+        listProfilesFrag = new ListProfilesFrag();
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -198,9 +198,21 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
+            //do nothing for now TODO
         } else {
             getFragmentManager().popBackStack();
         }
