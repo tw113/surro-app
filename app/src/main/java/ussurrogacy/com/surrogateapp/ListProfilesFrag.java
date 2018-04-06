@@ -1,18 +1,14 @@
 package ussurrogacy.com.surrogateapp;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +28,11 @@ public class ListProfilesFrag extends Fragment {
         super.onCreate(savedInstanceState);
 
         DashboardActivity activity = (DashboardActivity) getActivity();
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // add the back button when fragment is created
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.

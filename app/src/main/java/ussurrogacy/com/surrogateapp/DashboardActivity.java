@@ -3,25 +3,17 @@ package ussurrogacy.com.surrogateapp;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,8 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -43,10 +33,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -69,7 +57,6 @@ public class DashboardActivity extends AppCompatActivity
     private List<TextView> labels;
     private List<Profile> profiles;
     private static List<String> questions;
-    private  ListProfilesFrag listProfilesFrag;
 
     private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
@@ -85,8 +72,6 @@ public class DashboardActivity extends AppCompatActivity
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
     private static final String REQ_GOOGLE_PLAY = "This app requires Google Play Services. " +
             "Please install Google Play Services on your device and relaunch this app.";
-    private static final String NO_CONNECTION = "No network connection available.";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +146,8 @@ public class DashboardActivity extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // Sign in success
                             Log.d("Firebase", "signInWithEmail:success");
-                            messageBox.setText("Welcome, " + accountName + "!");
+                            String message = "Welcome, " + accountName + "!";
+                            messageBox.setText(message);
                             editTextPassword.setVisibility(EditText.INVISIBLE);
                             editTextEmail.setVisibility(EditText.INVISIBLE);
                             loginButton.setVisibility(Button.INVISIBLE);
@@ -188,7 +174,7 @@ public class DashboardActivity extends AppCompatActivity
 
     // start the list profiles fragment
     public void loadListFragment(View view) {
-        listProfilesFrag = new ListProfilesFrag();
+        ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -201,7 +187,7 @@ public class DashboardActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; goto parent activity.
+                // back button pressed
                 onBackPressed();
                 return true;
             default:
@@ -211,11 +197,7 @@ public class DashboardActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            //do nothing for now TODO
-        } else {
-            getFragmentManager().popBackStack();
-        }
+        getFragmentManager().popBackStack();
     }
 
     public List<Profile> getProfileList() {
@@ -226,7 +208,7 @@ public class DashboardActivity extends AppCompatActivity
         this.profiles = profiles;
     }
 
-    public List<String> getQuestions() { return this.questions; }
+    public List<String> getQuestions() { return questions; }
 
     /**
      * Sets all of the UI elements that need to be hideable during app use
@@ -303,7 +285,7 @@ public class DashboardActivity extends AppCompatActivity
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if (activity.getCurrentFocus() != null) {
+        if (activity.getCurrentFocus() != null && inputMethodManager != null) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), 0);
         }
@@ -444,66 +426,11 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     /**
-     * Checks whether the device currently has a network connection.
-     * @return true if the device has a network connection, false otherwise.
-     */
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
-    /**
-     * Check that Google Play services APK is installed and up to date.
-     * @return true if Google Play Services is available and up to
-     *     date on this device; false otherwise.
-     */
-    private boolean isGooglePlayServicesAvailable() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
-        return connectionStatusCode == ConnectionResult.SUCCESS;
-    }
-
-    /**
-     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
-     * Play Services installation via a user dialog, if possible.
-     */
-    private void acquireGooglePlayServices() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
-        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
-        }
-    }
-
-    /**
-     * Display an error dialog showing that Google Play Services is missing
-     * or out of date.
-     * @param connectionStatusCode code describing the presence (or lack of)
-     *     Google Play Services on this device.
-     */
-    void showGooglePlayServicesAvailabilityErrorDialog(
-            final int connectionStatusCode) {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        Dialog dialog = apiAvailability.getErrorDialog(
-                DashboardActivity.this,
-                connectionStatusCode,
-                REQUEST_GOOGLE_PLAY_SERVICES);
-        dialog.show();
-    }
-
-    /**
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
     private static class MakeRequestTask extends AsyncTask<Void, Integer, List<Profile>> {
         private com.google.api.services.sheets.v4.Sheets mService = null;
-        private Exception mLastError = null;
         private WeakReference<DashboardActivity> activityRef;
 
         MakeRequestTask(DashboardActivity activity, GoogleAccountCredential credential) {
@@ -537,7 +464,7 @@ public class DashboardActivity extends AppCompatActivity
          * and adds new Profiles based on the data
          *
          * @return List of questions
-         * @throws IOException
+         * @throws IOException For checking SheetsAPI
          */
         private List<Profile> getDataFromApi() throws IOException {
             DashboardActivity activity = activityRef.get();
@@ -560,7 +487,7 @@ public class DashboardActivity extends AppCompatActivity
                 }
 
                 for (int i = 1; i < values.size(); i++) {
-                    List<String> answers = new ArrayList<String>();
+                    List<String> answers = new ArrayList<>();
                     for (Object answer : values.get(i)) {
                         answers.add(answer.toString());
                         publishProgress(i);

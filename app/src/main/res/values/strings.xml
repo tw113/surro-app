@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SurrogateApp</string>
+    <string name="us_surrogacy_profiles">US-Surrogacy Profiles</string>
+    <string name="settings">Settings</string>
+    <string name="approved_surrogates">Approved Surrogates</string>
+    <string name="profile_list">Profile List</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
