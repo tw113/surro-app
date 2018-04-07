@@ -16,11 +16,9 @@ import java.util.List;
 /**
  * Class fragment for the ViewProfile UI.
  * Receives Individual profile data and populates the UI.*/
-public class ViewProfile extends Fragment {
+public class ViewProfileFrag extends Fragment {
     private Profile profile;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -29,25 +27,22 @@ public class ViewProfile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setUpRecyclerView();
     }
 
     private void setUpRecyclerView() {
 
         mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.recyclerView);
-        mAdapter = new VPRecyclerAdapter(this.getActivity(), profile);
+        RecyclerView.Adapter mAdapter = new VPRecyclerAdapter(this.getActivity(), profile);
         mRecyclerView.setAdapter(mAdapter);
 
-        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
-
 
         return inflater.inflate(R.layout.view_profile, container, false);
     }

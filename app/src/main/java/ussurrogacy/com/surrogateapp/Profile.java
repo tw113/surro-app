@@ -80,6 +80,8 @@ public class Profile {
         int inches;
         int weightInt;
 
+        //TODO: We are getting the wrong BMI, The calcualtion might be wrong or the index numbers
+
         //get the weight and parse into an integer
         if (weight.equals("")) {
             weightInt = 0;

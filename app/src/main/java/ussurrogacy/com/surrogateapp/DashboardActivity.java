@@ -193,6 +193,10 @@ public class DashboardActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    public void loadViewProfileFragment(View view) {
+        
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

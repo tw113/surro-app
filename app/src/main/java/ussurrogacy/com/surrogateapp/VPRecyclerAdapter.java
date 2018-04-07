@@ -25,15 +25,15 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
     private List <String> mKeys;
     private LayoutInflater mInflater;
 
-    public VPRecyclerAdapter(Context context, Profile profile){
+    VPRecyclerAdapter(Context context, Profile profile){
         this.mInflater = LayoutInflater.from(context);
+        this.profile = profile;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_cards, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
         ImageView imgThumb;
         int position;
 
-        public MyViewHolder(View itemView){
+        MyViewHolder(View itemView){
             super(itemView);
             answer = (TextView) itemView.findViewById(R.id.tvAnswer);
             key = (TextView) itemView.findViewById(R.id.tvKey);

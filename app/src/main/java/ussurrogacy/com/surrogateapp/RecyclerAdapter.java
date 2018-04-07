@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             TextView profileName;
             TextView profileDob;
             TextView profileBmi;
+            Button viewProfileButton;
 
             ProfileViewHolder(View itemView) {
                 super(itemView);
@@ -30,6 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
                 profileName = itemView.findViewById(R.id.profile_name);
                 profileDob = itemView.findViewById(R.id.profile_dob);
                 profileBmi = itemView.findViewById(R.id.profile_bmi);
+                viewProfileButton = itemView.findViewById(R.id.button_viewProfile);
             }
         }
 
@@ -57,6 +60,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             profileViewHolder.profileName.setText(profiles.get(i).getData("FirstAndLast"));
             profileViewHolder.profileDob.setText(profiles.get(i).getData("DateOfBirth"));
             profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
+            profileViewHolder.viewProfileButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   //TODO: start the view profile Fragment
+               }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)
