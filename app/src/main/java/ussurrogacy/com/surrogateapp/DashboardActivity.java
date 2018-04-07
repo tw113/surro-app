@@ -193,8 +193,20 @@ public class DashboardActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    public void loadViewProfileFragment(View view) {
-        
+    public void loadViewProfileFragment(Integer profileIndex) {
+        Bundle args = new Bundle();
+        args.putInt("ProfileIndex", profileIndex);
+
+        ViewProfileFrag viewProfileFrag = new ViewProfileFrag();
+        viewProfileFrag.setArguments(args);
+        viewProfileFrag.setEnterTransition(new Slide(Gravity.END));
+        viewProfileFrag.setReturnTransition(new Slide(Gravity.START));
+        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        frameLayout.setVisibility(FrameLayout.VISIBLE);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(frameLayout.getId(), viewProfileFrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

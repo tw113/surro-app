@@ -58,7 +58,7 @@ public class ListProfilesFrag extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //initialize recycleradapter and set the recyclerview's adapter to it
-        mAdapter = new RecyclerAdapter(profiles, questions);
+        mAdapter = new RecyclerAdapter(profiles, questions, getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
