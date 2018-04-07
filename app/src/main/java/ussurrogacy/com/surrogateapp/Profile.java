@@ -95,16 +95,16 @@ public class Profile {
                 bmi = 0;
             } else {
                 //convert the height into inches as an integer
-                inches = height.charAt(0) * 12;
+                inches = (int)height.charAt(0) * 12;
 
                 //if inches is less than 10
-                if (height.charAt(2) != 1) {
-                    inches += height.charAt(3);
+                if (height.charAt(2) != '1') {
+                    inches += (int)height.charAt(3);
                 }
                 //if inches is 10 or greater
                 else {
-                    inches += height.charAt(2) * 10;
-                    inches += height.charAt(3);
+                    inches += (int)height.charAt(2) * 10;
+                    inches += (int)height.charAt(3);
                 }
 
                 //calculate the bmi using the retrieved data
