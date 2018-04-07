@@ -79,6 +79,18 @@
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toEndOf="@+id/profile_bmi"
                 card_view:layout_constraintTop_toBottomOf="@+id/profile_name" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_view"
+                android:layout_below="@+id/profile_bmi"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                card_view:layout_constraintStart_toEndOf="@+id/profile_bmi"/>
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
