@@ -480,7 +480,7 @@ public class DashboardActivity extends AppCompatActivity
             DashboardActivity activity = activityRef.get();
 
             String spreadsheetId = "1qIFBaQ3aiQVOwkxclxkvXPW2M9daQJuc7QzNSLpfoV0";
-            String range = "A:FQ";
+            String range = "A:FN";
             ValueRange response = this.mService.spreadsheets().values()
                     .get(spreadsheetId, range)
                     .execute();
