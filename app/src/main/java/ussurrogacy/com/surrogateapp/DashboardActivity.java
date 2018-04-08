@@ -204,7 +204,7 @@ public class DashboardActivity extends AppCompatActivity
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(frameLayout.getId(), viewProfileFrag);
+        transaction.add(frameLayout.getId(), viewProfileFrag);
         transaction.addToBackStack(null);
         transaction.commit();
     }
