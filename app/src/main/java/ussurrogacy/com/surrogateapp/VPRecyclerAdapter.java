@@ -45,7 +45,7 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
 
     @Override
     public int getItemCount() {
-        return mKeys.size();
+        return 1;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

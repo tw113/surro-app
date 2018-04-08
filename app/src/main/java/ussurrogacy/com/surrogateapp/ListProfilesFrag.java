@@ -77,18 +77,6 @@ public class ListProfilesFrag extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
-        DashboardActivity activity = (DashboardActivity) getActivity();
-
-        FrameLayout frameLayout = getActivity().findViewById(R.id.fragment_container);
-        frameLayout.setVisibility(FrameLayout.INVISIBLE);
-
-        // remove the back button when fragment is paused
-        if (activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            String title = "Dashboard";
-            activity.getSupportActionBar().setTitle(title);
-        }
     }
 
     @Override

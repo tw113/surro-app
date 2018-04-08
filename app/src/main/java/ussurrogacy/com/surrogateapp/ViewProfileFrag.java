@@ -19,6 +19,7 @@ import java.util.List;
 public class ViewProfileFrag extends Fragment {
     private Profile profile;
     private RecyclerView mRecyclerView;
+    private Integer profileIndex;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -28,24 +29,36 @@ public class ViewProfileFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setUpRecyclerView();
+        DashboardActivity activity = (DashboardActivity)getActivity();
+
+        // add the back button when fragment is created
+        if (activity.getSupportActionBar() != null) {
+            String title = "Profile View";
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setTitle(title);
+        }
     }
 
-    private void setUpRecyclerView() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
 
-        mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.recyclerView);
+        View view = inflater.inflate(R.layout.view_profile, container, false);
+
+        DashboardActivity activity = (DashboardActivity)getActivity();
+        profileIndex = getArguments().getInt("ProfileIndex");
+        profile = activity.getProfileList().get(profileIndex);
+
+        System.out.println("Profile= " + profile.getData("FirstName"));
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         RecyclerView.Adapter mAdapter = new VPRecyclerAdapter(this.getActivity(), profile);
         mRecyclerView.setAdapter(mAdapter);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
-    }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.view_profile, container, false);
+        return view;
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {

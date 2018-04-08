@@ -184,7 +184,7 @@ public class DashboardActivity extends AppCompatActivity
     public void loadListFragment(View view) {
         ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
         listProfilesFrag.setEnterTransition(new Slide(Gravity.END));
-        listProfilesFrag.setReturnTransition(new Slide(Gravity.START));
+        listProfilesFrag.setReturnTransition(new Slide(Gravity.END));
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -200,11 +200,11 @@ public class DashboardActivity extends AppCompatActivity
         ViewProfileFrag viewProfileFrag = new ViewProfileFrag();
         viewProfileFrag.setArguments(args);
         viewProfileFrag.setEnterTransition(new Slide(Gravity.END));
-        viewProfileFrag.setReturnTransition(new Slide(Gravity.START));
+        viewProfileFrag.setReturnTransition(new Slide(Gravity.END));
         FrameLayout frameLayout = findViewById(R.id.fragment_container);
         frameLayout.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(frameLayout.getId(), viewProfileFrag);
+        transaction.replace(frameLayout.getId(), viewProfileFrag);
         transaction.addToBackStack(null);
         transaction.commit();
     }

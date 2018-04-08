@@ -19,22 +19,25 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ProfileViewHolder> {
         private List<Profile> profiles;
         private List<String> questions;
-        private Context mContext;
 
         static class ProfileViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
             TextView profileName;
             TextView profileDob;
             TextView profileBmi;
-            Button viewProfileButton;
 
-            ProfileViewHolder(View itemView) {
+            ProfileViewHolder(View itemView, final Context context) {
                 super(itemView);
                 cv = itemView.findViewById(R.id.cv);
                 profileName = itemView.findViewById(R.id.profile_name);
                 profileDob = itemView.findViewById(R.id.profile_dob);
                 profileBmi = itemView.findViewById(R.id.profile_bmi);
-                viewProfileButton = itemView.findViewById(R.id.button_viewProfile);
+                cv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((DashboardActivity)context).loadViewProfileFragment(0);
+                    }
+                });
             }
         }
 
@@ -46,7 +49,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             this.questions = new ArrayList<>();
             this.questions.addAll(questions);
 
-            mContext = context;
         }
 
         // Create new views (invoked by the layout manager)
@@ -56,7 +58,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_profiles, parent, false);
 
-            return new ProfileViewHolder(v);
+            return new ProfileViewHolder(v, parent.getContext());
         }
 
         @Override
@@ -64,13 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             profileViewHolder.profileName.setText(profiles.get(i).getData("FirstAndLast"));
             profileViewHolder.profileDob.setText(profiles.get(i).getData("DateOfBirth"));
             profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
-            /*profileViewHolder.viewProfileButton.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   Integer i = profileViewHolder.getLayoutPosition();
-                   ((DashboardActivity)mContext).loadViewProfileFragment(i);
-               }
-            }); */
+
         }
 
         // Return the size of dataset (invoked by the layout manager)
