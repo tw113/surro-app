@@ -135,7 +135,7 @@ public class DashboardActivity extends AppCompatActivity
 
         // if theres more than six characters in the password box
         // then start the login process
-        if (editTextPassword.getText().length() > 8) {
+        if (editTextPassword.getText().length() >= 8) {
             chooseAccount();
             getList();
         }
@@ -502,7 +502,7 @@ public class DashboardActivity extends AppCompatActivity
                     .execute();
 
             List<List<Object>> values = response.getValues();
-            //List<String> questions = new ArrayList<String>();
+            List<String> questions = new ArrayList<String>();
             activity.profiles = new ArrayList<>();
             int profileID = 0;
 

@@ -108,7 +108,9 @@ public class Profile {
                 }
 
                 //calculate the bmi using the retrieved data
-                bmi = (float) (weightInt / Math.pow(inches, 2));
+                int inchesSquared = inches * inches;
+                bmi = (float) (weightInt / inchesSquared);
+                bmi = bmi * 703;
             }
         } else {
             bmi = 0;
