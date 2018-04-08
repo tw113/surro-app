@@ -19,6 +19,7 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ProfileViewHolder> {
         private List<Profile> profiles;
         private List<String> questions;
+        public static Integer profileID = 0;
 
         static class ProfileViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
@@ -35,7 +36,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
                 cv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((DashboardActivity)context).loadViewProfileFragment(0);
+                        ((DashboardActivity)context)
+                                .loadViewProfileFragment(RecyclerAdapter.profileID);
                     }
                 });
             }
@@ -67,6 +69,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Profil
             profileViewHolder.profileDob.setText(profiles.get(i).getData("DateOfBirth"));
             profileViewHolder.profileBmi.setText(Float.toString(profiles.get(i).getBmi()));
 
+            profileID = i;
         }
 
         // Return the size of dataset (invoked by the layout manager)

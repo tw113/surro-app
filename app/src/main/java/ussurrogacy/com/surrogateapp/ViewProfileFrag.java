@@ -30,7 +30,6 @@ public class ViewProfileFrag extends Fragment {
         super.onCreate(savedInstanceState);
 
         DashboardActivity activity = (DashboardActivity)getActivity();
-
         // add the back button when fragment is created
         if (activity.getSupportActionBar() != null) {
             String title = "Profile View";
@@ -41,7 +40,6 @@ public class ViewProfileFrag extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.view_profile, container, false);
 
         DashboardActivity activity = (DashboardActivity)getActivity();
@@ -51,7 +49,8 @@ public class ViewProfileFrag extends Fragment {
         System.out.println("Profile= " + profile.getData("FirstName"));
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        RecyclerView.Adapter mAdapter = new VPRecyclerAdapter(this.getActivity(), profile);
+        RecyclerView.Adapter mAdapter =
+                new VPRecyclerAdapter(this.getActivity(), profile, activity.getQuestions());
         mRecyclerView.setAdapter(mAdapter);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());

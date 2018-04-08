@@ -25,9 +25,10 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
     private List <String> mKeys;
     private LayoutInflater mInflater;
 
-    VPRecyclerAdapter(Context context, Profile profile){
+    VPRecyclerAdapter(Context context, Profile profile, List<String> keys){
         this.mInflater = LayoutInflater.from(context);
         this.profile = profile;
+        mKeys = keys;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
 
     @Override
     public int getItemCount() {
-        return 1;
+        return mKeys.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

@@ -59,6 +59,9 @@ public class DashboardActivity extends AppCompatActivity
     private List<TextView> labels;
     private List<Profile> profiles;
     private static List<String> questions;
+    private ListProfilesFrag listProfilesFrag;
+    private ViewProfileFrag viewProfileFrag;
+    private FrameLayout fragmentContainer;
 
     private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
@@ -78,6 +81,19 @@ public class DashboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        // init list profiles fragment
+        listProfilesFrag = new ListProfilesFrag();
+        listProfilesFrag.setEnterTransition(new Slide(Gravity.END));
+        listProfilesFrag.setReturnTransition(new Slide(Gravity.END));
+
+        // init view profile fragment
+        viewProfileFrag = new ViewProfileFrag();
+        viewProfileFrag.setEnterTransition(new Slide(Gravity.END));
+        viewProfileFrag.setReturnTransition(new Slide(Gravity.END));
+
+        // init fragment container
+        fragmentContainer = findViewById(R.id.fragment_container);
 
         // change actionbar's title
         if (getSupportActionBar() != null) {
@@ -182,13 +198,16 @@ public class DashboardActivity extends AppCompatActivity
 
     // start the list profiles fragment
     public void loadListFragment(View view) {
-        ListProfilesFrag listProfilesFrag = new ListProfilesFrag();
-        listProfilesFrag.setEnterTransition(new Slide(Gravity.END));
-        listProfilesFrag.setReturnTransition(new Slide(Gravity.END));
-        FrameLayout frameLayout = findViewById(R.id.fragment_container);
-        frameLayout.setVisibility(FrameLayout.VISIBLE);
+
+        fragmentContainer.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(frameLayout.getId(), listProfilesFrag);
+        if (getFragmentManager() != null) {
+            transaction.replace(fragmentContainer.getId(), listProfilesFrag);
+        }
+        else {
+            transaction.add(fragmentContainer.getId(), listProfilesFrag);
+        }
+
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -197,14 +216,11 @@ public class DashboardActivity extends AppCompatActivity
         Bundle args = new Bundle();
         args.putInt("ProfileIndex", profileIndex);
 
-        ViewProfileFrag viewProfileFrag = new ViewProfileFrag();
         viewProfileFrag.setArguments(args);
-        viewProfileFrag.setEnterTransition(new Slide(Gravity.END));
-        viewProfileFrag.setReturnTransition(new Slide(Gravity.END));
-        FrameLayout frameLayout = findViewById(R.id.fragment_container);
-        frameLayout.setVisibility(FrameLayout.VISIBLE);
+
+        fragmentContainer.setVisibility(FrameLayout.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(frameLayout.getId(), viewProfileFrag);
+        transaction.replace(fragmentContainer.getId(), viewProfileFrag);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -223,7 +239,13 @@ public class DashboardActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        getFragmentManager().popBackStack();
+        if(getFragmentManager().getBackStackEntryCount() == 1) {
+            FrameLayout frameLayout = findViewById(R.id.fragment_container);
+            frameLayout.setVisibility(FrameLayout.INVISIBLE);
+        }
+        else if (getFragmentManager().getBackStackEntryCount() > 1){
+            getFragmentManager().popBackStack();
+        }
     }
 
     public List<Profile> getProfileList() {
