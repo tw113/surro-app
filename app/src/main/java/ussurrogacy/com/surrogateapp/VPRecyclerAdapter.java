@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -50,12 +51,14 @@ public class VPRecyclerAdapter extends RecyclerView.Adapter<VPRecyclerAdapter.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout profileLayout;
         TextView answer, key;
         ImageView imgThumb;
         int position;
 
         MyViewHolder(View itemView){
             super(itemView);
+            profileLayout = itemView.findViewById(R.id.profile_layout);
             answer = (TextView) itemView.findViewById(R.id.tvAnswer);
             key = (TextView) itemView.findViewById(R.id.tvKey);
             imgThumb = (ImageView) itemView.findViewById(R.id.img_row);

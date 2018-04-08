@@ -23,6 +23,7 @@
             card_view:srcCompat="@android:drawable/ic_dialog_email"/>
 
         <LinearLayout
+            android:id="@+id/profile_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
